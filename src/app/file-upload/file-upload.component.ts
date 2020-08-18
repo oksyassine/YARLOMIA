@@ -1,11 +1,11 @@
 import { Component, OnInit , EventEmitter,Inject} from '@angular/core';
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { FileUploadService } from "./upload.service";
-import { Router, NavigationStart } from '@angular/router';
+import { Router, NavigationStart, ActivatedRoute } from '@angular/router';
 import { HttpEventType, HttpResponse, HttpRequest,HttpHeaders,HttpClient } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { Observable } from 'rxjs';
-import { catchError, last, map, tap } from 'rxjs/operators';
+import { StateParameterService } from '../shared/st-parameter.service';
 
 export function hostFactory() { return window.location.hostname; }
 
@@ -21,14 +21,15 @@ export class FileUploadComponent implements OnInit {
   selectedFiles: FileList;
   currentFile: File;
   progress = 0;
-  message = '';
+  message:string;
   sub :Subscription;
   fileInfos: Observable<any>;
-  url:string='/form/pic';
+  url:string;
+  rootpath:string[];
   pageTitle:string ="Upload Portrait";
   complete = new EventEmitter<string>();
-  rootURL='';
-  constructor(@Inject('HOSTNAME') private hostname: string,private router : Router,public fb: FormBuilder,private fileUploadService: FileUploadService,private _http: HttpClient) {
+  rootURL:string;
+  constructor(@Inject('HOSTNAME') private hostname: string,private route: ActivatedRoute,private router : Router,private stService :StateParameterService,public fb: FormBuilder,private fileUploadService: FileUploadService,private _http: HttpClient) {
     if (hostname=='localhost')
       this.rootURL='http://'+hostname;
     else
@@ -45,7 +46,19 @@ export class FileUploadComponent implements OnInit {
       }
   });
   }
+  ngOnInit(): void {
 
+/*    this.rootpath=this.router.url.split('/');
+    console.log(this.rootpath);
+    if(!this.stService.id && !this.rootpath[1])
+      this.router.navigate(['/form']);*/
+    if (this.router.url === '/form/pic') {
+      this.pageTitle = "Upload Portrait";
+    }
+    else if (this.router.url === '/form/bio') {
+      this.pageTitle = "Upload Biometry Info";
+    }
+  }
 selectFile(event): void {
   this.selectedFiles = event.target.files;
   const file = (event.target as HTMLInputElement).files[0];
@@ -60,17 +73,9 @@ selectFile(event): void {
     }
     reader.readAsDataURL(file)
 }
-ngOnInit(): void {
-  if (this.router.url === '/form/pic') {
-    this.pageTitle = "Upload Portrait";
-  }
-  else if (this.router.url === '/form/bio') {
-    this.pageTitle = "Upload Biometry Info";
-  }
-}
 
   // Image Preview
-  showPreview(event) {
+ /* showPreview(event) {
     const file = (event.target as HTMLInputElement).files[0];
     this.uploadForm.patchValue({
       avatar: file
@@ -84,47 +89,45 @@ ngOnInit(): void {
     }
     reader.readAsDataURL(file)
 
-  }
-
-  // Submit Form
-  /*submit() {
-    console.log(this.url);
-    if (this.url=="/form/bio") {
-      this.url="/";
-      console.log(this.url);
-      this.pageTitle = "Upload Biometry Info";
-
-    }else if (this.url=="/form/pic") {
-      console.log(this.url);
-      this.url="/form/bio";
-      this.router.navigate([this.url]);
-    }
   }*/
+
   upload(): void {
     this.progress = 0;
     this.currentFile = this.selectedFiles.item(0);
-    this.uploadFile(this.currentFile);
-    /*console.log(this.currentFile);
-    this.fileUploadService.upload(this.currentFile).subscribe(
+    //this.uploadFile(this.currentFile);
+    //console.log(this.currentFile);
+
+    this.fileUploadService.postImg(this.currentFile,this.stService.id,this.rootURL,this.router.url).subscribe(
       (event: any) => {
         if (event.type === HttpEventType.UploadProgress) {
           this.progress = Math.round(100 * event.loaded / event.total);
         } else if (event instanceof HttpResponse) {
           this.message = event.body.message;
           console.log(event.body.message);
-          //this.fileInfos = this.fileUploadService.getFiles();
+          this.message = 'Uploaded Successfully!';
+          if (this.router.url === '/form/pic')
+            this.url='/form/bio';
+          else if (this.router.url === '/form/bio')
+            this.url='/';
+          setTimeout(() =>
+          {
+              this.router.navigate([this.url]);
+          },
+          2000);
         }
       },
       err => {
         this.progress = 0;
         this.message = 'Could not upload the file!';
         this.currentFile = undefined;
-      });*/
+      });
     this.selectedFiles = undefined;
   }
-  private uploadFile(file: File) {
+  /*private uploadFile(file: File) {
     const fd = new FormData();
-    fd.append('uploads[]', file,file.name);
+    //console.log(this.idService.id);
+    fd.append('id',this.idService.id);
+    fd.append('file', file,file.name);
     const req = new HttpRequest('POST', this.rootURL+'/api/upload', fd, {
           reportProgress: true,
           responseType: 'json'
@@ -144,8 +147,7 @@ ngOnInit(): void {
     ).subscribe(
           (event: any) => {
                 if (typeof (event) === 'object') {
-                      //this.complete.emit(event.body);
-                      console.log(event.body);
+                      //console.log(event.body);
                       this.message = 'Uploaded Successfully!';
                       if (this.router.url === '/form/pic')
                         this.url='/form/bio';
@@ -164,6 +166,5 @@ ngOnInit(): void {
             this.currentFile = undefined;
           }
     );
-
-}
+}*/
 }

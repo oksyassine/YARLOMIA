@@ -1,13 +1,13 @@
 ﻿﻿<div class="card">
   <div class="card-header">
-    Personal Infos
+    Personal Informations
   </div>
   <div class="card-body">
     <div class="container-fluid">
 <div>
   <form (ngSubmit)="onSubmit()" [formGroup]="form">
 
-    <div *ngFor="let question of questions" class="form-row">
+    <div class="text-center" *ngFor="let question of questions" class="form-row">
       <app-question style="display: block;margin-left: auto;margin-right: auto;width: 50%;"
       [question]="question" [form]="form"></app-question>
     </div>
@@ -18,10 +18,10 @@
     </div>
   </form>
 
-  <div style="display: block;margin-left: auto;margin-right: auto;width: 50%;"
+  <!--<div style="display: block;margin-left: auto;margin-right: auto;width: 50%;"
    *ngIf="payLoad" class="form-row">
     <strong>Saved the following values</strong><br>{{payLoad}}
-  </div>
+  </div>-->
 </div>
 
 </div>

@@ -3,31 +3,31 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
 
-import { IProduct } from './product';
+import { IUser } from './user';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ProductService {
+export class UserService {
   // If using Stackblitz, replace the url with this line
   // because Stackblitz can't find the api folder.
   // private productUrl = 'assets/products/products.json';
-  private productUrl = 'api/products/products.json';
+  private userUrl = 'api/products/products.json';
 
   constructor(private http: HttpClient) { }
 
-  getProducts(): Observable<IProduct[]> {
-    return this.http.get<IProduct[]>(this.productUrl)
+  getUsers(): Observable<IUser[]> {
+    return this.http.get<IUser[]>(this.userUrl)
       .pipe(
         tap(data => console.log('All: ' + JSON.stringify(data))),
         catchError(this.handleError)
       );
   }
 
-  getProduct(id: number): Observable<IProduct | undefined> {
-    return this.getProducts()
+  getUser(id: number): Observable<IUser | undefined> {
+    return this.getUsers()
       .pipe(
-        map((products: IProduct[]) => products.find(p => p.productId === id))
+        map((users: IUser[]) => users.find(p => p._id === id))
       );
   }
 

@@ -7,33 +7,31 @@ import { catchError, tap, map } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class FileUploadService {
-  // If using Stackblitz, replace the url with this line
-  // because Stackblitz can't find the api folder.
-  // private productUrl = 'assets/products/products.json';
-  private baseUrl = 'http://localhost:8080/api';
-
+  type:string;
   constructor(private http: HttpClient) { }
 
-  upload(file: File): Observable<HttpEvent<any>> {
-    const formData: FormData = new FormData();
-    const headerDict = {
+  postImg(file: File,id:string,hostname:string,url:string): Observable<HttpEvent<any>> {
+    const formData = new FormData();
+
+    formData.append('id',id);
+    formData.append('file', file,file.name);
+    /*const headerDict = {
       'Content-Type': 'image/jpeg',
       'Access-Control-Allow-Headers': 'Content-Type',
-    }
-    formData.append('file', file);
-
-    const req = new HttpRequest('POST', `${this.baseUrl}/upload`, formData, {
+    }*/
+    if (url=="/pic")
+      this.type="/pdp";
+    else
+    this.type="/bio";
+    const req = new HttpRequest('POST', hostname+'/api/upload'+this.type, formData, {
       reportProgress: true,
-      headers: new HttpHeaders(headerDict),
+      //headers: new HttpHeaders(headerDict),
       responseType: 'json'
     });
     console.log(req);
     return this.http.request(req);
   }
 
-  getFiles(): Observable<any> {
-    return this.http.get(`${this.baseUrl}/files`);
-  }
   /*postFile(fileToUpload: File): Observable<Object> {
     const endpoint = 'http://localhost:8080/api/upload/';
     const formData: FormData = new FormData();

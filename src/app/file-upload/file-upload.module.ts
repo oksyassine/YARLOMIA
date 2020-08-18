@@ -10,7 +10,8 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from "@angular/material/icon";
 import { MatCardModule } from "@angular/material/card";
 import { MatProgressBarModule } from "@angular/material/progress-bar";
-
+import { MaterialFileInputModule } from 'ngx-material-file-input';
+import { FormGuard } from "./form.guard";
 @NgModule({
   declarations: [
     FileUploadComponent,
@@ -25,9 +26,10 @@ import { MatProgressBarModule } from "@angular/material/progress-bar";
     MatCardModule,
     MatProgressBarModule,
     ReactiveFormsModule,
+    MaterialFileInputModule,
     RouterModule.forChild([
-      { path: 'form/pic', component: FileUploadComponent },
-      { path: 'form/bio', component: FileUploadComponent }
+      { path: 'form/pic', canActivate: [FormGuard], component: FileUploadComponent },
+      { path: 'form/bio', canActivate: [FormGuard], component: FileUploadComponent }
     ]),
   ],
   exports:[

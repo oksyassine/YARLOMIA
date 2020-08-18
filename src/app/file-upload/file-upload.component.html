@@ -21,18 +21,22 @@
             </div>
           </div>
 
-          <label class="btn btn-default" >
-            <input style="display: block;margin-left: auto;margin-right: auto;width: 100%;"
-            type="file" accept="image/*" (change)="selectFile($event)" />
-          </label>
+          <mat-form-field style="display: block;margin-left: auto;margin-right: auto;width: 80%;" class="example-full-width">
+            <mat-label>Select Image</mat-label>
+            <ngx-mat-file-input type="file" accept="image/*" placeholder="Select Image" valuePlaceholder="No image file selected"
+             (change)="selectFile($event)"></ngx-mat-file-input>
+            <mat-icon matSuffix>image</mat-icon>
+            <!--<input style="display: block;margin-left: auto;margin-right: auto;width: 100%;"
+            type="file" accept="image/*" (change)="selectFile($event)" />-->
+          </mat-form-field>
 
-          <button class="btn btn-success" style="display: block;margin-left: auto;margin-right: auto;width: 100%;" [disabled]="!selectedFiles" (click)="upload()">
+          <button class="btn btn-success" style="display: block;margin-left: auto;margin-right: auto;width: 50%;" [disabled]="!selectedFiles" (click)="upload()">
             Upload
           </button>
-         <!-- <button style="position: absolute;left: 90%;right: auto;" type="submit" mat-button color="primary">
+         <!-- <button type="submit" mat-button color="primary">
             Done
           </button>-->
-          <div class="alert alert-light" role="alert" style="display: block;margin-left: auto;margin-right: auto;width: 100%;">{{ message }}</div>
+          <div class="alert alert-light text-center" role="alert" >{{ message }}</div>
           <div class="card">
             <div class="card-header">Preview</div>
               <!-- Image Preview -->

@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 import { QuestionBase } from './question-base';
 import { QuestionControlService } from './question-control.service';
 import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
-
+import { StateParameterService } from "../shared/st-parameter.service";
 export function hostFactory() { return window.location.hostname; }
 
 
@@ -26,7 +26,7 @@ export class DynamicFormComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
   location: Location;
 
-  constructor(@Inject('HOSTNAME') private hostname: string,private qcs: QuestionControlService,private router : Router,private http: HttpClient,location: Location) {
+  constructor(@Inject('HOSTNAME') private hostname: string,private stService :StateParameterService,private qcs: QuestionControlService,private router : Router,private http: HttpClient,location: Location) {
     //this.location = location;
     if (hostname=='localhost')
       this.rootURL='http://'+hostname;
@@ -40,17 +40,16 @@ export class DynamicFormComponent implements OnInit {
   }
 
   onSubmit() {
-    this.payLoad = JSON.stringify(this.form.getRawValue());
+    //this.payLoad = JSON.stringify(this.form.getRawValue());
     this.http.post(this.rootURL + '/api/form', this.form.getRawValue()).pipe(takeUntil(this.destroy$)).subscribe(data => {
       console.log('message::::', data);
+      this.stService.id="dsfgssdf65487sdfsdf57";
     });
-
     setTimeout(() =>
     {
-      this.router.navigate(['/form/pic']);
+      this.router.navigate(["/form/pic"]);
         },
     2000);
-
   }
 }
 

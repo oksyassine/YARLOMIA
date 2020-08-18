@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class ProductDetailGuard implements CanActivate {
+export class UserDetailGuard implements CanActivate {
 
   constructor(private router: Router) { }
 
@@ -16,8 +16,8 @@ export class ProductDetailGuard implements CanActivate {
     // const id2 = next.paramMap.get('id');
     // console.log(id2);
     if (isNaN(id) || id < 1) {
-      alert('Invalid product Id');
-      this.router.navigate(['/products']);
+      alert('Invalid user Id');
+      this.router.navigate(['/users']);
       return false;
     }
     return true;

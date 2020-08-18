@@ -5,11 +5,16 @@ import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { WelcomeComponent } from './home/welcome.component';
-import { ProductModule } from './products/product.module';
+import { UserModule } from './users/user.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FileUploadModule } from './file-upload/file-upload.module';
 import { RFormModule } from './r-form/r-form.module';
 import { MatToolbarModule } from "@angular/material/toolbar";
+import { StateParameterService } from "./st-parameter.service";
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,11 +28,16 @@ import { MatToolbarModule } from "@angular/material/toolbar";
       { path: '', redirectTo: 'home', pathMatch: 'full' },
       { path: '**', redirectTo: 'home', pathMatch: 'full' }
     ]),
-    ProductModule,
+    UserModule,
     RFormModule,
     FileUploadModule,
     BrowserAnimationsModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatSnackBarModule,
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+  ],
+  providers:[
+    StateParameterService
   ],
   exports:[
     MatToolbarModule
