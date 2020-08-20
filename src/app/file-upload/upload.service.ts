@@ -19,11 +19,11 @@ export class FileUploadService {
       'Content-Type': 'image/jpeg',
       'Access-Control-Allow-Headers': 'Content-Type',
     }*/
-    if (url=="/pic")
-      this.type="/pdp";
+    if (url=="/form/pic")
+      this.type="/pic";
     else
     this.type="/bio";
-    const req = new HttpRequest('POST', hostname+'/api/upload'+this.type, formData, {
+    const req = new HttpRequest('POST', '/api/upload'+this.type, formData, {
       reportProgress: true,
       //headers: new HttpHeaders(headerDict),
       responseType: 'json'

@@ -8,6 +8,7 @@ import { QuestionBase } from './question-base';
 import { QuestionControlService } from './question-control.service';
 import {Location, LocationStrategy, PathLocationStrategy} from '@angular/common';
 import { StateParameterService } from "../shared/st-parameter.service";
+import { CookieService } from 'ngx-cookie-service';
 export function hostFactory() { return window.location.hostname; }
 
 
@@ -25,10 +26,10 @@ export class DynamicFormComponent implements OnInit {
   rootURL = '';
   destroy$: Subject<boolean> = new Subject<boolean>();
   location: Location;
-
-  constructor(@Inject('HOSTNAME') private hostname: string,private stService :StateParameterService,private qcs: QuestionControlService,private router : Router,private http: HttpClient,location: Location) {
+  obj:JSON;
+  constructor(@Inject('HOSTNAME') private hostname: string,private cookieService: CookieService,private stService :StateParameterService,private qcs: QuestionControlService,private router : Router,private http: HttpClient,location: Location) {
     //this.location = location;
-    if (hostname=='localhost')
+    if (hostname.includes('localhost'))
       this.rootURL='http://'+hostname;
     else
       this.rootURL='https://'+hostname;
@@ -37,18 +38,27 @@ export class DynamicFormComponent implements OnInit {
 
   ngOnInit() {
     this.form = this.qcs.toFormGroup(this.questions);
+    //const start = Date.now();
+    //this.cookieService.set( 'cin', "this.stService.id",start+60,'/',this.hostname,true,"None");
+    //console.log(this.cookieService.getAll());
   }
 
   onSubmit() {
     //this.payLoad = JSON.stringify(this.form.getRawValue());
-    this.http.post(this.rootURL + '/api/form', this.form.getRawValue()).pipe(takeUntil(this.destroy$)).subscribe(data => {
+    this.http.post('/api/form', this.form.getRawValue()).pipe(takeUntil(this.destroy$)).subscribe(data => {
       console.log('message::::', data);
-      this.stService.id="dsfgssdf65487sdfsdf57";
+      //console.log(JSON.parse(JSON.stringify(data)));
+      //this.obj=JSON.parse(JSON.stringify(data));
+      this.stService.id=JSON.stringify(data);//this.obj['cin'];
+      console.log(this.stService.id);
+      const start = Date.now();
+      this.cookieService.set( 'data', this.stService.id ,start+60000,'/',this.hostname,true);
+      //console.log(this.cookieService.getAll());
     });
     setTimeout(() =>
     {
       this.router.navigate(["/form/pic"]);
-        },
+    },
     2000);
   }
 }

@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "add": "ng add @angular/material",
     "start": "ng serve -o",
     "build": "ng build",
     "prod": "ng build --prod=true",
@@ -26,6 +25,7 @@
     "@angular/service-worker": "~10.0.4",
     "bootstrap": "^4.5.0",
     "font-awesome": "^4.7.0",
+    "ngx-cookie-service": "^10.0.1",
     "ngx-material-file-input": "^2.1.1",
     "rxjs": "~6.5.5",
     "tslib": "^2.0.0",

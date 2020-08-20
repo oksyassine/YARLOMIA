@@ -15,3 +15,15 @@ div.card {
 }
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.blue-snackbar {
+  background: #2196F3;
+}
+
+.success-snackbar {
+  background: #0cb937;
+}
+
+.danger-snackbar {
+  background: #aa0707;
+}

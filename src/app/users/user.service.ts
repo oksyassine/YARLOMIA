@@ -11,20 +11,20 @@ import { IUser } from './user';
 export class UserService {
   // If using Stackblitz, replace the url with this line
   // because Stackblitz can't find the api folder.
-  // private productUrl = 'assets/products/products.json';
-  private userUrl = 'api/products/products.json';
+  // private userUrl = 'api/products/products.json';
+  private userUrl = "api/getAll";
 
   constructor(private http: HttpClient) { }
 
   getUsers(): Observable<IUser[]> {
     return this.http.get<IUser[]>(this.userUrl)
       .pipe(
-        tap(data => console.log('All: ' + JSON.stringify(data))),
+        tap(data => console.log('')),
         catchError(this.handleError)
       );
   }
 
-  getUser(id: number): Observable<IUser | undefined> {
+  getUser(id: string): Observable<IUser | undefined> {
     return this.getUsers()
       .pipe(
         map((users: IUser[]) => users.find(p => p._id === id))

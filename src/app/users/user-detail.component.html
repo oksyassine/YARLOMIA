@@ -6,7 +6,7 @@
 
   <div class='card-body'>
     <div class='row'>
-      <div class='col-md-8'>
+      <div class='col-md-4'>
         <div class='row'>
           <div class='col-md-4'>First Name:</div>
           <div class='col-md-8'>{{user.firstName}}</div>
@@ -14,8 +14,7 @@
         <div class='row'>
           <div class='col-md-4'>Last Name:</div>
           <div class='col-md-8'>{{ user.lastName}}</div>
-        </div>
-        <div class='row'>
+        </div>        <div class='row'>
           <div class='col-md-4'>CIN:</div>
           <div class='col-md-8'>{{user.cin}}</div>
         </div>
@@ -27,15 +26,32 @@
           <div class='col-md-4'>Genre:</div>
           <div class='col-md-8'>{{ user.sexe}}</div>
         </div>
-        
       </div>
+      <div class='col-md-8'>
+
+      <div class='row'>
 
       <div class='col-md-4'>
         <img class='center-block img-responsive'
-             [style.width.px]='200'
+             [style.width.px]='100'
              [style.margin.px]='2'
-             [src]='user.imageUrl'
+             [src]='sanatizeUrl(user.pic)'
+             [title]='user.firstName'
              >
+      </div>
+
+
+      <div class='col-md-8'>
+        <img class='center-block img-responsive'
+             [style.width.px]='100'
+             [style.margin.px]='2'
+             [src]='sanatizeUrl(user.bio)'
+             [title]='user.firstName'
+             >
+      </div>
+    </div>
+
+
       </div>
     </div>
   </div>

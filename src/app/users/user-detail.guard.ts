@@ -12,10 +12,10 @@ export class UserDetailGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    const id = +next.url[1].path;
+    const id = next.url[1].path;
     // const id2 = next.paramMap.get('id');
     // console.log(id2);
-    if (isNaN(id) || id < 1) {
+    if (!id) {
       alert('Invalid user Id');
       this.router.navigate(['/users']);
       return false;
