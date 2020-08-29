@@ -1,33 +1,25 @@
 const express = require("express");
+const cors = require('cors');
 const mongoose = require("mongoose");
 var busboy = require("connect-busboy");
 var router = express.Router();
-const EventEmitter = require('events');
+const EventEmitter = require("events");
 const Stream = new EventEmitter();
 var ObjectId = require("mongoose").Types.ObjectId;
+router.use(cors());
 router.use(busboy());
-var connDistant = mongoose.createConnection(
-  "mongodb://admin:Gseii2021@sc2bomo9230.universe.wf:2717/idemia?authSource=admin",
-  { useNewUrlParser: true, useUnifiedTopology: true }
-);
 var connLocal = mongoose.createConnection(
   "mongodb://admin:Gseii2021@52.148.245.219:3306/idemia?authSource=admin",
-  { useNewUrlParser: true, useUnifiedTopology: true }
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
 );
-const citoyen = connDistant.model(
+
+const citoyen = connLocal.model(
   "citoyen",
   {
-    firstName: { type: String },
-    lastName: { type: String },
-    cin: { type: String },
-    address: { type: String },
-    sexe: { type: String },
-  },
-  "coll"
-);
-const citoyen2 = connLocal.model(
-  "citoyen",
-  {
+    _id: { type: String },
     firstName: { type: String },
     lastName: { type: String },
     cin: { type: String },
@@ -38,9 +30,10 @@ const citoyen2 = connLocal.model(
 );
 
 router.get("/api/getAll", (req, res) => {
-  if (connDistant.readyState == 1 || connDistant.readyState == 2) {
+  if (connLocal.readyState == 1 || connLocal.readyState == 2) {
     citoyen.find((err, docs) => {
       if (!err) {
+        res.set("Access-Control-Allow-Origin", "https://yarlomia.ga");
         res.send(docs);
       } else {
         console.log("error finding data");
@@ -52,59 +45,47 @@ router.get("/api/getAll", (req, res) => {
 });
 
 router.get("/api/state", (req, res) => {
-res.writeHead(200,{
-  'Content-Type':'text/event-stream;charset=utf-8',
-  'Cache-Control':'no-cache',
-  Connection:'keep-alive',
-});
-Stream.on('push',function(event,data){
-  res.write('event: '+String(event)+'\n'+'data: '+data+'\n\n');
-});
+  res.writeHead(200, {
+    "Content-Type": "text/event-stream;charset=utf-8",
+    "Cache-Control": "no-cache",
+    Connection: "keep-alive",
+    "Access-Control-Allow-Origin": "https://yarlomia.ga"
+  });
+  Stream.on("push", function (event, data) {
+    res.write("event: " + String(event) + "\n" + "data: " + data + "\n\n");
+  });
+  if (connLocal.readyState == 1 ) {
+    Stream.emit("push", "db", "y");
+  } else Stream.emit("push", "db", "n");
 });
 
-setInterval(function() {
-  if (connDistant.readyState != 1 || connDistant.readyState != 2) {
-    Stream.emit('push','db','n');
-  }
-},10000);
 router.post("/api/form", (req, res) => {
-  console.log(connDistant.readyState);
-  if (connDistant.readyState == 1 || connDistant.readyState == 2) {
+
+  console.log("--------------------st-----------------");
+  if (connLocal.readyState == 1 || connLocal.readyState == 2) {
+    console.log("--------------------if------------------");
     var cit = new citoyen({
+      _id: req.body._id,
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       cin: req.body.cin,
       address: req.body.address,
       sexe: req.body.sexe,
     });
+    console.log("value is: "+req.body._id);
     citoyen.collection.insertOne(cit, (err, doc) => {
-      if (!err) {
-        console.log("--------------------insert operation------------------");
-        console.log(doc.ops[0]._id + " succesfully inserted to the distant db");
-        console.log("--------------------insert operation------------------");
-        res.send({ _id: doc.ops[0]._id });
-      } else {
-        console.log("failed to save in the distant db");
-      }
-    });
-  } else {
-    var cit = new citoyen2({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      cin: req.body.cin,
-      address: req.body.address,
-      sexe: req.body.sexe,
-    });
-    citoyen2.collection.insertOne(cit, (err, doc) => {
       if (!err) {
         console.log("--------------------insert operation------------------");
         console.log(doc.ops[0]._id + " succesfully inserted to the local db");
         console.log("--------------------insert operation------------------");
+        res.set("Access-Control-Allow-Origin", "https://yarlomia.ga");
         res.send({ _id: doc.ops[0]._id });
       } else {
-        console.log("failed to save in the local db");
+        console.log("-----------> failed to save in the local db");
       }
     });
+  } else {
+    console.log("-----------> error inserting data in local db");
   }
 });
 
@@ -127,11 +108,12 @@ router.post("/api/upload/pic", function (req, res) {
       buf = Buffer.concat(chunks);
       binarydata = Buffer.from(buf, "binary").toString("base64");
       fstream = "data:" + mimetype + ";base64, ".concat(binarydata);
+      res.set("Access-Control-Allow-Origin", "https://yarlomia.ga");
       res.send({ success: true });
-      if (connDistant.readyState == 1 || connDistant.readyState == 2) {
+      if (connLocal.readyState == 1 || connLocal.readyState == 2) {
         citoyen.collection
           .updateOne(
-            { _id: ObjectId(field) },
+            { _id: field },
             { $set: { pic: fstream } },
             { upsert: true }
           )
@@ -140,7 +122,7 @@ router.post("/api/upload/pic", function (req, res) {
             console.log(
               "--------------------update operation------------------"
             );
-            console.log(" succesfully updated in the distant db");
+            console.log(" succesfully updated in the local db");
             console.log(
               "--------------------update operation------------------"
             );
@@ -149,32 +131,14 @@ router.post("/api/upload/pic", function (req, res) {
             console.log("");
           });
       } else {
-        citoyen2.collection
-          .updateOne(
-            { _id: ObjectId(field) },
-            { $set: { pic: fstream } },
-            { upsert: true }
-          )
-          .then(function () {
-            if (err) throw err;
-            console.log(
-              "--------------------update operation------------------"
-            );
-            console.log("pdp image is succesfully inserted in the local db");
-            console.log(
-              "--------------------update operation------------------"
-            );
-          })
-          .catch(function () {
-            console.log("");
-          });
+        console.log("-----------> error inserting pdp image in local db");
       }
     });
   });
   req.busboy.on("field", function (fieldname, value) {
     console.log("The value is: " + fieldname + "   " + value);
-    field = JSON.parse(value);
-    field = field._id;
+    field = value
+    //field = field._id;
   });
 });
 
@@ -199,12 +163,13 @@ router.post("/api/upload/bio", function (req, res) {
       buf = Buffer.concat(chunks);
       binarydata = Buffer.from(buf, "binary").toString("base64");
       fstream = "data:" + mimetype + ";base64, ".concat(binarydata);
-      console.log(fstream);
+      //console.log(fstream);
+      res.set("Access-Control-Allow-Origin", "https://yarlomia.ga");
       res.send({ success: true });
-      if (connDistant.readyState == 1 || connDistant.readyState == 2) {
+      if (connLocal.readyState == 1 || connLocal.readyState == 2) {
         citoyen.collection
           .updateOne(
-            { _id: ObjectId(field) },
+            { _id: field },
             { $set: { bio: fstream } },
             { upsert: true }
           )
@@ -213,7 +178,7 @@ router.post("/api/upload/bio", function (req, res) {
             console.log(
               "--------------------update operation------------------"
             );
-            console.log(" succesfully updated in the distant db");
+            console.log(" succesfully updated in the local db");
             console.log(
               "--------------------update operation------------------"
             );
@@ -222,33 +187,13 @@ router.post("/api/upload/bio", function (req, res) {
             console.log("");
           });
       } else {
-        citoyen2.collection
-          .updateOne(
-            { _id: ObjectId(field) },
-            { $set: { bio: fstream } },
-            { upsert: true }
-          )
-          .then(function () {
-            if (err) throw err;
-
-            console.log(
-              "--------------------update operation------------------"
-            );
-            console.log("bio image is succesfully inserted in the local db");
-            console.log(
-              "--------------------update operation------------------"
-            );
-          })
-          .catch(function () {
-            console.log("");
-          });
+        console.log("-----------> error inserting bio image in local db");
       }
     });
   });
   req.busboy.on("field", function (fieldname, value) {
     console.log("The value is: " + fieldname + "   " + value);
-    field = JSON.parse(value);
-    field = field._id;
+    field = value;
     console.log("id is :" + field);
   });
 });

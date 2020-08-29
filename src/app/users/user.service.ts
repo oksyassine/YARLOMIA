@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap, map } from 'rxjs/operators';
+import { StateParameterService } from "../shared/st-parameter.service";
 
 import { IUser } from './user';
 
@@ -12,9 +13,9 @@ export class UserService {
   // If using Stackblitz, replace the url with this line
   // because Stackblitz can't find the api folder.
   // private userUrl = 'api/products/products.json';
-  private userUrl = "api/getAll";
+  private userUrl = this.stService.host + "/api/getAll";
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient,private stService:StateParameterService) { }
 
   getUsers(): Observable<IUser[]> {
     return this.http.get<IUser[]>(this.userUrl)

@@ -7,26 +7,28 @@ import { Injectable } from '@angular/core';
 export class EventService {
   constructor() {}
   evs: EventSource;
-  private subj = new BehaviorSubject([]);
+  ret:any;
+  private subj = new BehaviorSubject(this.ret);
   returnAsObservable() {
       return this.subj.asObservable();
   }
   getUpdates() {
       let subject = this.subj;
       if (typeof(EventSource) !== 'undefined') {
-          this.evs = new EventSource('/api/test');
+          this.evs = new EventSource('/api/state');
           this.evs.onopen = function(e) {
               console.log("Opening connection.Ready State is " + this.readyState);
+              subject.next(true);
           }
-          this.evs.onmessage = function(e) {
+          /*this.evs.onmessage = function(e) {
               console.log("Message Received.Ready State is " + this.readyState);
               subject.next(JSON.parse(e.data));
-          }
+          }*/
           this.evs.addEventListener("db", function(e) {
-              console.log("DB event Received. Local Mode.");
               subject.next(e["data"]);
           })
           this.evs.onerror = function(e) {
+            subject.next(false);
               console.log(e);
               if (this.readyState == 0) {
                   console.log("Reconnecting…");

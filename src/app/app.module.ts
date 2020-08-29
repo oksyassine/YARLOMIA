@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
 
-import { AppComponent,CountdownSnackbarComponent,CountdownService } from './app.component';
+import { AppComponent/*,CountdownSnackbarComponent,CountdownService*/ } from './app.component';
 import { WelcomeComponent } from './home/welcome.component';
 import { UserModule } from './users/user.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -20,7 +20,7 @@ import { CookieService } from 'ngx-cookie-service';
   declarations: [
     AppComponent,
     WelcomeComponent,
-    CountdownSnackbarComponent
+    //CountdownSnackbarComponent
   ],
   imports: [
     BrowserModule,
@@ -39,10 +39,10 @@ import { CookieService } from 'ngx-cookie-service';
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   entryComponents: [
-    CountdownSnackbarComponent,
+    //CountdownSnackbarComponent,
   ],
   providers:[
-    CountdownService,
+    //CountdownService,
     StateParameterService,CookieService
   ],
   exports:[

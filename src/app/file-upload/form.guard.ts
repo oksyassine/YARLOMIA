@@ -15,7 +15,7 @@ export class FormGuard implements CanActivate {
     //const id = next.url[2].path;
 
     if (!this.stService.id) {
-      alert('Invalid User Id');
+      alert('Please complete the form before uploading the photos!');
       this.router.navigate(['/form']);
       return false;
     }

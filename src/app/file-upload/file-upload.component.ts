@@ -10,8 +10,7 @@ export function hostFactory() { return window.location.hostname; }
 @Component({
   selector: 'app-file-upload',
   templateUrl: './file-upload.component.html',
-  styleUrls: ['./file-upload.component.css'],
-  providers: [{ provide: 'HOSTNAME', useFactory: hostFactory }]
+  styleUrls: ['./file-upload.component.css']
 })
 export class FileUploadComponent implements OnInit {
   imageURL: string;
@@ -22,30 +21,23 @@ export class FileUploadComponent implements OnInit {
   message:string;
   url:string;
   pageTitle:string;
-  rootURL:string;
-  constructor(@Inject('HOSTNAME') private hostname: string,private router : Router,
-  private stService :StateParameterService,public fb: FormBuilder,private fileUploadService: FileUploadService) {
-    if (hostname=='localhost')
-      this.rootURL='http://'+hostname;
-    else
-      this.rootURL='https://'+hostname;
+  type:string;
+  constructor(private router : Router,private stService :StateParameterService,
+    public fb: FormBuilder,private fileUploadService: FileUploadService) {
     // Reactive Form
     this.uploadForm = this.fb.group({
       avatar: [null],
       name: ['']
     });
-    this.router.events.subscribe((event) => {
-      if(event instanceof NavigationStart) {
-          this.url=event.url;
-      }
-  });
   }
   ngOnInit(): void {
-    if (this.router.url === '/form/pic') {
+    if (this.router.url == '/form/pic') {
       this.pageTitle = "Upload Portrait";
+      this.type="pic";
     }
-    else if (this.router.url === '/form/bio') {
+    else if (this.router.url == '/form/bio') {
       this.pageTitle = "Upload Biometry Info";
+      this.type="bio";
     }
   }
 selectFile(event): void {
@@ -66,7 +58,7 @@ selectFile(event): void {
   upload(): void {
     this.progress = 0;
     this.currentFile = this.selectedFiles.item(0);
-    this.fileUploadService.postImg(this.currentFile,this.stService.id,this.rootURL,this.router.url).subscribe(
+    this.fileUploadService.postImg(this.currentFile,this.stService.id,this.stService.host,this.type).subscribe(
       (event: any) => {
         if (event.type === HttpEventType.UploadProgress) {
           this.progress = Math.round(100 * event.loaded / event.total);
@@ -82,7 +74,8 @@ selectFile(event): void {
           {
               this.router.navigate([this.url]);
           },
-          2000);
+          1000);
+
         }
       },
       err => {

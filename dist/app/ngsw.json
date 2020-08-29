@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1598695449385,
+  "timestamp": 1598742167243,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -13,7 +13,7 @@
       "urls": [
         "/favicon.ico",
         "/index.html",
-        "/main.ff7d81b8867387b8490f.js",
+        "/main.30922fabe77e5132d596.js",
         "/manifest.webmanifest",
         "/polyfills.a4021de53358bb0fec14.js",
         "/runtime.e227d1a0e31cbccbf8ec.js",
@@ -43,7 +43,6 @@
         "/assets/images/logo.jpg",
         "/assets/images/saw.png",
         "/assets/images/xbox-controller.png",
-        "/assets/products/products.json",
         "/fontawesome-webfont.1e59d2330b4c6deb84b3.ttf",
         "/fontawesome-webfont.20fd1704ea223900efa9.woff2",
         "/fontawesome-webfont.8b43027f47b20503057d.eot",
@@ -57,7 +56,7 @@
     {
       "name": "api-performance",
       "patterns": [
-        "\\/api\\/getAll7"
+        "\\/api\\/tst"
       ],
       "strategy": "performance",
       "maxSize": 100,
@@ -84,15 +83,14 @@
     "/assets/images/logo.jpg": "07af48a6338a1a07b0ba778b109e6d00a2eb55fa",
     "/assets/images/saw.png": "0209beaaa08eba7907971c34eceb4a7ff3588da2",
     "/assets/images/xbox-controller.png": "dd47287d65fdae7f21888024fc3c423007687c6a",
-    "/assets/products/products.json": "eabc7c334fc149233f8ff1a04cd9770c3dba92f8",
     "/favicon.ico": "a62687b3d5bc05f0c2cae3b1a0606c37777a21e3",
     "/fontawesome-webfont.1e59d2330b4c6deb84b3.ttf": "13b1eab65a983c7a73bc7997c479d66943f7c6cb",
     "/fontawesome-webfont.20fd1704ea223900efa9.woff2": "d6f48cba7d076fb6f2fd6ba993a75b9dc1ecbf0c",
     "/fontawesome-webfont.8b43027f47b20503057d.eot": "d980c2ce873dc43af460d4d572d441304499f400",
     "/fontawesome-webfont.c1e38fd9e0e74ba58f7a.svg": "98a8aa5cf7d62c2eff5f07ede8d844b874ef06ed",
     "/fontawesome-webfont.f691f37e57f04c152e23.woff": "28b782240b3e76db824e12c02754a9731a167527",
-    "/index.html": "89f0be5cdea7e2dc6b69f77b5403c1b9b40ea05c",
-    "/main.ff7d81b8867387b8490f.js": "036e65889e6bdd865481cf755841557079052555",
+    "/index.html": "015d32a42a49b8b2b9e9cbae61b90979af87ab8c",
+    "/main.30922fabe77e5132d596.js": "19cfe29c68cbb177a22a9f587671ccb3fee00772",
     "/manifest.webmanifest": "e71b02c68f6d6c347a7fe59e12fdd7c364d3f80e",
     "/polyfills.a4021de53358bb0fec14.js": "b47435a9ef2a4829f2f9dfd35599bde3614981b1",
     "/runtime.e227d1a0e31cbccbf8ec.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
