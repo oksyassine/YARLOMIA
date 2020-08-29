@@ -2,14 +2,16 @@ const express = require("express");
 const mongoose = require("mongoose");
 var busboy = require("connect-busboy");
 var router = express.Router();
+const EventEmitter = require('events');
+const Stream = new EventEmitter();
 var ObjectId = require("mongoose").Types.ObjectId;
 router.use(busboy());
 var connDistant = mongoose.createConnection(
-  "mongodb://admin:Gseii2021@52.148.194.128:27017/idemia?authSource=admin",
+  "mongodb://admin:Gseii2021@sc2bomo9230.universe.wf:2717/idemia?authSource=admin",
   { useNewUrlParser: true, useUnifiedTopology: true }
 );
 var connLocal = mongoose.createConnection(
-  "mongodb://admin:Gseii2021@52.148.245.219:27017/idemia?authSource=admin",
+  "mongodb://admin:Gseii2021@52.148.245.219:3306/idemia?authSource=admin",
   { useNewUrlParser: true, useUnifiedTopology: true }
 );
 const citoyen = connDistant.model(
@@ -50,13 +52,21 @@ router.get("/api/getAll", (req, res) => {
 });
 
 router.get("/api/state", (req, res) => {
-  if (connDistant.readyState == 1 || connDistant.readyState == 2) {
-    res.status(200).end();
-  } else {
-    res.status(202).end();
-  }
+res.writeHead(200,{
+  'Content-Type':'text/event-stream;charset=utf-8',
+  'Cache-Control':'no-cache',
+  Connection:'keep-alive',
+});
+Stream.on('push',function(event,data){
+  res.write('event: '+String(event)+'\n'+'data: '+data+'\n\n');
+});
 });
 
+setInterval(function() {
+  if (connDistant.readyState != 1 || connDistant.readyState != 2) {
+    Stream.emit('push','db','n');
+  }
+},10000);
 router.post("/api/form", (req, res) => {
   console.log(connDistant.readyState);
   if (connDistant.readyState == 1 || connDistant.readyState == 2) {

@@ -2,6 +2,7 @@ import { Component, Inject, OnDestroy, OnInit, Injectable, Output, EventEmitter,
 import { Observable, Observer, fromEvent, merge, interval, Subscription, Subject,timer } from 'rxjs';
 import { map, first,switchMap, take } from 'rxjs/operators';
 import { HttpClient } from "@angular/common/http";
+import { EventService } from "./shared/event.service";
 export function hostFactory() { return window.location.hostname; }
 
 import {
@@ -65,7 +66,7 @@ export class AppComponent implements OnInit,OnDestroy  {
   horizontalPosition: MatSnackBarHorizontalPosition = 'left';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   constructor(@Inject('HOST') private host: string,private _http: HttpClient,
-  private snackBar: MatSnackBar,private countdown: CountdownService) {
+  private snackBar: MatSnackBar,private countdown: CountdownService,private _sse:EventService) {
     if (host=='localhost')
       this.rootURL='http://'+host;
     else
@@ -76,10 +77,10 @@ export class AppComponent implements OnInit,OnDestroy  {
         //this.status=': ONLINE';
         this.val=12000;
         this.checker();
-        this.sub=this.source.subscribe(next => {
+        /*this.sub=this.source.subscribe(next => {
           //this.autodelay+=1000;
           this.checker();
-        });
+        });*/
       }else{
         //this.status=': OFFLINE';
         this.test=false;
@@ -89,17 +90,26 @@ export class AppComponent implements OnInit,OnDestroy  {
     });
   }
   ngOnInit(): void {
+ /*   this._sse.getServerSentEvent('/api/test').subscribe(data=>{
+      console.log(data);
+    });*/
 
+    this._sse.returnAsObservable().subscribe(data=>{
+      console.log(data['msg']);
+
+    });
+    this._sse.getUpdates();
   }
   ngOnDestroy(): void {
+    this._sse.stopUpdates();
     this.sub.unsubscribe();
   }
-  openSnackBar(msg:string) {
+  openSnackBar(msg:string,val=2000,color='success-snackbar') {
     this.snackBar.open(msg,"OK", {
-      duration: 2000,
+      duration: val,
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
-      panelClass: ['success-snackbar']
+      panelClass: [color]
     });
   }
   errsnackbar(msg:string,duration:number=10000,color:string='danger-snackbar'){
@@ -122,8 +132,8 @@ export class AppComponent implements OnInit,OnDestroy  {
       });
     });
   }
-  infosnack(msg:string="Connecting..."){
-    this.snackBar.open(msg,"OK", {
+  infosnack(msg="Connecting...",act="OK"){
+    this.snackBar.open(msg,act, {
       duration: 1000,
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
@@ -139,7 +149,7 @@ export class AppComponent implements OnInit,OnDestroy  {
         sub.complete();
       }));
   }
-  checker(val=10000):void{
+  checker(val=10000):boolean{
       this._http.get("/api/state", { observe: 'response' })
       .pipe(first())
       .subscribe(resp => {
@@ -148,6 +158,7 @@ export class AppComponent implements OnInit,OnDestroy  {
             //this.infosnack();
             this.openSnackBar("Online Mode");
             this.test=true;
+            return true;
           }
           //console.log("true");
         } else {
@@ -156,10 +167,11 @@ export class AppComponent implements OnInit,OnDestroy  {
             this.infosnack();
             setTimeout(() =>
             {
-              this.errsnackbar("Local Mode",val,'blue-snackbar');
+              this.openSnackBar("Local Mode",val,'blue-snackbar');
             },
             2000);
           this.test=false;
+          return false;
           //console.log("false")
           }
         }
@@ -174,6 +186,7 @@ export class AppComponent implements OnInit,OnDestroy  {
         2000);
         this.test=false;
       });
+      return null;
   }
 }
 /** Component opened inside a snackbar. */

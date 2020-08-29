@@ -9,8 +9,8 @@ app.use(express.static(process.cwd() + "/app/"));
 app.get("/", (req, res) => {
   res.sendFile(process.cwd() + "/app/index.html");
 });
-app.listen(80, () => {
-  console.log("server started at port 80");
+app.listen(3003, () => {
+  console.log("server started at port 3003");
 });
 
 app.use("/", citoyenController);

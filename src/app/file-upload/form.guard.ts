@@ -14,8 +14,6 @@ export class FormGuard implements CanActivate {
     state: RouterStateSnapshot,): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     //const id = next.url[2].path;
 
-    //console.log(this.stService.id);
-
     if (!this.stService.id) {
       alert('Invalid User Id');
       this.router.navigate(['/form']);
