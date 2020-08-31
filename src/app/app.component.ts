@@ -1,8 +1,10 @@
-import { Component, Inject, OnDestroy, OnInit, Injectable } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, Injectable, EventEmitter } from '@angular/core';
 import { Observable, Observer, fromEvent, merge, interval, Subscription, Subject,timer } from 'rxjs';
 import { map, first,switchMap, take } from 'rxjs/operators';
 import { HttpClient } from "@angular/common/http";
 import { EventService } from "./shared/event.service";
+import { StateParameterService } from "./shared/st-parameter.service";
+import { FileUploadService } from "./file-upload/upload.service";
 import {
   MatSnackBar,
   MatSnackBarHorizontalPosition,
@@ -10,10 +12,7 @@ import {
   MatSnackBarRef,
   MAT_SNACK_BAR_DATA
 } from '@angular/material/snack-bar';
-import { StateParameterService } from "./shared/st-parameter.service";
-import { FileUploadService } from "./file-upload/upload.service";
 /** Service for cross component communication. */
-/*
 @Injectable()
 export class CountdownService {
   startTimer = new Subject<number>();
@@ -27,8 +26,7 @@ export class CountdownService {
   timeLeft(): Observable<number> {
     return this.timer;
   }
-}*/
-
+}
 @Component({
   selector: 'pm-root',
   template: `
@@ -50,58 +48,101 @@ export class CountdownService {
 })
 export class AppComponent implements OnInit,OnDestroy  {
   pageTitle = 'YARLOMIA';
-  //val=12000;
-  //snval=2000;
+  val=12000;
+  snval=2000;
+  autodelay=0;
   private sub:Subscription;
-  //private source = interval(this.val);
-  //test:boolean;
-  rootURL:string;
-  //snackBarRef:MatSnackBarRef<CountdownSnackbarComponent>;
+  private check:Subscription;
+  private source= interval(this.val);
+  test:boolean;
+  old:string;
+  oldloc:string;
+  snackBarRef:MatSnackBarRef<CountdownSnackbarComponent>;
   horizontalPosition: MatSnackBarHorizontalPosition = 'left';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   constructor(private _http: HttpClient,private stService:StateParameterService,private UpService: FileUploadService,
-  private snackBar: MatSnackBar/*,private countdown: CountdownService*/,private _sse:EventService) {
-
+  private snackBar: MatSnackBar,private countdown: CountdownService,private _sse:EventService,private loc:EventService) {
     this.createOnline$().subscribe(isOnline => {
       if(isOnline){
-        //this.val=12000;
         this._sse.getUpdates();
-        //this.checker();
-        /*this.sub=this.source.subscribe(next => {
+        this.val=12000;
+        this.test=false;
+        this.check=this.source.subscribe(next => {
+          if(this.test)
           this.checker();
-        });*/
+        });
       }else{
-        //this.test=false;
-        this._sse.stopUpdates();
         //this.sub.unsubscribe();
+        this.old="";
+        this._sse.stopUpdates();
+        this.loc.stopUpdates();
+        if(this.check)
+          this.check.unsubscribe();
         this.openSnackBar("Device Disconnected",'danger-snackbar');
       }
     });
   }
   ngOnInit(): void {
-    this.sub=this._sse.returnAsObservable().subscribe(data=>{
-      console.log(data);
-      if(data==true || data=='y'){
+    var busy;
+    this.stService.busy.subscribe(foo =>{
+      if (!foo && this.old=='y') {
+        busy=false;
         this.openSnackBar("Online Mode");
         this.stService.host="https://yarlomia.ga";
+      }else busy=true;
+    });
+    this.sub=this._sse.returnAsObservable().subscribe(msg=>{
+      console.log(msg);
+      if(msg=='yx' && msg!=this.old && !busy){
+        this.openSnackBar("Online Mode");
+        this.stService.host="https://yarlomia.ga";
+        this.loc.stopUpdates();
+        this.test=false;
+        this.old=msg;
+        console.log("Access: "+msg);
       }
-      else if(data==false || data=='n'){
+      else if((msg=="rx" || msg=='nx' || msg=='ex') && msg!=this.old){
+        this.loc.getUpdates("http://localhost:3003");
+        this.old=msg;
+        console.log("Access: "+msg);
+      }
+      else if (msg=='ex') {
+        setTimeout(() =>
+        {
+          this._sse.getUpdates();
+        },
+        10000);
+        this.old=msg;
+      }else if(msg=='y' && msg!=this.oldloc){
         this.stService.host="http://localhost:3003";
         this.openSnackBar("Local Mode",'blue-snackbar');
         this.restore();
+        this.test=false;
+        this.oldloc=msg;
+        console.log("Access: "+msg);
+      }
+      else if((msg=='r'|| msg=='n' || msg=='e') && msg!=this.oldloc ){
+        this.stService.host="";
+        this.loc.stopUpdates();
+        //this.openSnackBar("Offline Mode",'danger-snackbar',5000);
+        this.test=true;
+        this.oldloc=msg;
+        console.log("Access: "+msg);
       }
     });
   }
   ngOnDestroy(): void {
     this._sse.stopUpdates();
+    this.loc.stopUpdates();
     this.sub.unsubscribe();
+    this.check.unsubscribe();
   }
   restore(): void{
     if(this.stService.form)
-    this._http.post(this.stService.host+'api/form', this.stService.form).subscribe(data => {
+    this._http.post(this.stService.host+'/api/form', this.stService.form).subscribe(data => {
       setTimeout(() =>
             {
-              this.openSnackBar("Form Saved",'blue-snackbar');
+              this.openSnackBar("Personal Informations Saved",'blue-snackbar',3000);
             },
             3000);
     });
@@ -110,11 +151,47 @@ export class AppComponent implements OnInit,OnDestroy  {
         (event: any) => {
             setTimeout(() =>
             {
-              this.openSnackBar("Portrait Uploaded Successfully!",'blue-snackbar');
+              this.openSnackBar("Portrait Uploaded Successfully!",'blue-snackbar',3000);
             },
             6000);
         });
     }
+  }
+  openSnackBar(msg:string,color='success-snackbar',val=10000) {
+    this.snackBar.open(msg,"OK", {
+      duration: val,
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      panelClass: [color]
+    });
+  }
+  errsnackbar(msg:string,duration:number=10000,color:string='danger-snackbar'){
+    if (this.snackBarRef)
+      this.snackBarRef.dismiss();
+    this.snackBarRef =this.snackBar.openFromComponent(CountdownSnackbarComponent, {duration,
+      data: msg,
+      panelClass: [color],
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition});
+    this.countdown.start(duration);
+    this.snackBarRef.onAction().subscribe(() => {
+      this.snval*=2;
+      this.val*=2;
+      this.check.unsubscribe();
+      this.source = interval(this.val);
+      this.checker(this.val-this.snval);
+      this.check=this.source.subscribe(next => {
+        this.checker(this.val-this.snval);
+      });
+    });
+  }
+  infosnack(msg:string="Connecting..."){
+    this.snackBar.open(msg,"OK", {
+      duration: 1000,
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      panelClass: ['blue-snackbar']
+    });
   }
   createOnline$() {
     return merge<boolean>(
@@ -125,84 +202,27 @@ export class AppComponent implements OnInit,OnDestroy  {
         sub.complete();
       }));
   }
-  openSnackBar(msg:string,color='success-snackbar') {
-    this.snackBar.open(msg,"OK", {
-      duration: 10000,
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-      panelClass: [color]
-    });
-  }
-/*  infosnack(msg="Connecting...",act="OK"){
-    this.snackBar.open(msg,act, {
-      duration: 1000,
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition,
-      panelClass: ['blue-snackbar']
-    });
-  }
-  errsnackbar(msg:string,duration:number=10000,color:string='danger-snackbar'){
-    //const duration = 60000;
-    this.snackBarRef =this.snackBar.openFromComponent(CountdownSnackbarComponent, {duration,
-      data: msg,
-      panelClass: [color],
-      horizontalPosition: this.horizontalPosition,
-      verticalPosition: this.verticalPosition});
-    this.countdown.start(duration);
-    this.snackBarRef.onAction().subscribe(() => {
-      //this.retrysnack();
-      this.snval*=2;
-      this.val*=2;
-      this.sub.unsubscribe();
-      this.source = interval(this.val);
-      this.checker(this.val-this.snval);
-      this.sub=this.source.subscribe(next => {
-        this.checker(this.val-this.snval);
-      });
-    });
-  }
-  checker(val=10000):boolean{
-      this._http.get("/api/state", { observe: 'response' })
+  checker(val=10000):void{
+      this._http.get("http://localhost:3003/api/db", { observe: 'response' })
       .pipe(first())
       .subscribe(resp => {
         if (resp.status === 200 ) {
-          if(!this.test){
-            //this.infosnack();
-            this.openSnackBar("Online Mode");
-            this.test=true;
-            return true;
-          }
-          //console.log("true");
-        } else {
-          if (this.test)
-          {
-            this.infosnack();
-            setTimeout(() =>
-            {
-              this.openSnackBar("Local Mode",'blue-snackbar');
-            },
-            2000);
-          this.test=false;
-          return false;
-          //console.log("false")
-          }
+          this.loc.getUpdates("http://localhost:3003");
+          console.log("back to local mode");
         }
       }, err => {
-        //console.log(err);
-        //if (this.test)
+        console.log("still offline mode");
         this.infosnack();
         setTimeout(() =>
         {
           this.errsnackbar("Offline Mode",val);
         },
         2000);
-        this.test=false;
       });
-      return null;
-  }*/
+  }
 }
 /** Component opened inside a snackbar. */
-/*@Component({
+@Component({
   selector: 'snackbar',
   template: `
   <button class="pull-right" (click)="snackBarRef.dismissWithAction()" mat-stroked-button color="warn">RETRY NOW</button>
@@ -216,4 +236,3 @@ export class CountdownSnackbarComponent {
   constructor(private countdown: CountdownService,@Inject(MAT_SNACK_BAR_DATA) public data: any,
   public snackBarRef: MatSnackBarRef<CountdownSnackbarComponent>) { }
 }
-*/

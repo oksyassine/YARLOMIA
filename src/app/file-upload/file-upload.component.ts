@@ -58,24 +58,32 @@ selectFile(event): void {
   upload(): void {
     this.progress = 0;
     this.currentFile = this.selectedFiles.item(0);
+
     this.fileUploadService.postImg(this.currentFile,this.stService.id,this.stService.host,this.type).subscribe(
       (event: any) => {
         if (event.type === HttpEventType.UploadProgress) {
           this.progress = Math.round(100 * event.loaded / event.total);
         } else if (event instanceof HttpResponse) {
           this.message = event.body.message;
-          console.log(event.body.message);
+          //console.log(event.body.message);
           this.message = 'Uploaded Successfully!';
-          if (this.router.url === '/form/pic')
+          if (this.router.url === '/form/pic'){
+            this.stService.pic=this.currentFile;
             this.url='/form/bio';
-          else if (this.router.url === '/form/bio')
+          }
+          else if (this.router.url === '/form/bio'){
+            this.stService.form=null;
+            this.stService.pic=null;
+            this.stService.busy.emit(false);
             this.url='/';
+          }
           setTimeout(() =>
           {
               this.router.navigate([this.url]);
           },
           1000);
 
+          this.selectedFiles = undefined;
         }
       },
       err => {
@@ -83,6 +91,6 @@ selectFile(event): void {
         this.message = 'Could not upload the file!';
         //this.currentFile = undefined;
       });
-    this.selectedFiles = undefined;
+
   }
 }

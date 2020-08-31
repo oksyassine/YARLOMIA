@@ -12,27 +12,46 @@ export class EventService {
   returnAsObservable() {
       return this.subj.asObservable();
   }
-  getUpdates() {
+  getUpdates(host="https://yarlomia.ga") {
       let subject = this.subj;
+      let k=-1;
       if (typeof(EventSource) !== 'undefined') {
-          this.evs = new EventSource('/api/state');
+          this.evs = new EventSource(host+'/api/state');
           this.evs.onopen = function(e) {
-              console.log("Opening connection.Ready State is " + this.readyState);
-              subject.next(true);
+              console.log("Opening connection with " + host);
+              /*if (k==-1 || k==0)
+                subject.next(true);*/
+              k=0;
           }
           /*this.evs.onmessage = function(e) {
               console.log("Message Received.Ready State is " + this.readyState);
               subject.next(JSON.parse(e.data));
           }*/
+          this.evs.addEventListener("dbx", function(e) {
+            if (k==-1 || k==0)
+              subject.next(e["data"]+'x');
+          });
           this.evs.addEventListener("db", function(e) {
+            if (k==-1 || k==0)
               subject.next(e["data"]);
-          })
+          });
           this.evs.onerror = function(e) {
-            subject.next(false);
-              console.log(e);
-              if (this.readyState == 0) {
-                  console.log("Reconnecting…");
-              }
+            if (k==-1){
+              if (host=="https://yarlomia.ga")
+                subject.next('ex');
+              else subject.next('e');
+            }
+
+            if(k==2){
+              if(host=="https://yarlomia.ga")
+                subject.next("rx");
+              else subject.next("r");
+            }
+
+            if (this.readyState == 0) {
+              console.log("Reconnecting…");
+              k++;
+            }
           }
       }
   }

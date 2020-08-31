@@ -8,6 +8,9 @@ const Stream = new EventEmitter();
 var ObjectId = require("mongoose").Types.ObjectId;
 router.use(cors());
 router.use(busboy());
+var k = 0,
+  j = 0;
+var db;
 var connLocal = mongoose.createConnection(
   "mongodb://admin:Gseii2021@52.148.245.219:3306/idemia?authSource=admin",
   {
@@ -48,15 +51,45 @@ router.get("/api/state", (req, res) => {
   res.writeHead(200, {
     "Content-Type": "text/event-stream;charset=utf-8",
     "Cache-Control": "no-cache",
+    "Access-Control-Allow-Origin": "*",
     Connection: "keep-alive",
-    "Access-Control-Allow-Origin": "https://yarlomia.ga"
   });
+  if(db)
+    res.write("event: db\n" + "data: " + db + "\n\n");
   Stream.on("push", function (event, data) {
     res.write("event: " + String(event) + "\n" + "data: " + data + "\n\n");
   });
-  if (connLocal.readyState == 1 ) {
+});
+
+router.get("/api/db", (req, res) => {
+  if (connLocal.readyState == 1 || connLocal.readyState == 2)
+  res.status(200).end();
+  else
+  res.status(404).end();
+});
+
+connLocal.on("connected", () => {
+  k++;
+  if (k % 2 == 1) {
     Stream.emit("push", "db", "y");
-  } else Stream.emit("push", "db", "n");
+    db="y";
+    console.log("connected to mongodb");
+  }
+  if (k == 7) {
+    k = 0;
+  }
+});
+
+connLocal.on("disconnected", () => {
+  j++;
+  if (j % 2 == 1) {
+    console.log("connection disconnected");
+    Stream.emit("push", "db", "n");
+    db="n";
+  }
+  if (j == 7) {
+    j = 0;
+  }
 });
 
 router.post("/api/form", (req, res) => {
@@ -157,7 +190,7 @@ router.post("/api/upload/bio", function (req, res) {
     file.on("data", function (chunk) {
       //console.log(chunk);
       chunks.push(chunk);
-      console.log("done");
+      console.log("uploading..");
     });
     file.on("end", function () {
       buf = Buffer.concat(chunks);
