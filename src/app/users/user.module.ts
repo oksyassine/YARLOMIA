@@ -8,6 +8,7 @@ import { MatTableModule } from '@angular/material/table'
 import { ReactiveFormsModule } from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import { CommonModule } from '@angular/common';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { CommonModule } from '@angular/common';
     ReactiveFormsModule,
     MatInputModule,
     CommonModule,
+    MatProgressSpinnerModule,
     RouterModule.forChild([
       { path: 'users', component: UserListComponent },
       {

@@ -25,18 +25,8 @@ export class UserListComponent implements OnInit {
   showImage = true;
   errorMessage = '';
   expandedElement: IUser | null;
+  isLoadingResults = false;
 
-/*
-  _listFilter = '';
-  get listFilter(): string {
-    return this._listFilter;
-  }
-  set listFilter(value: string) {
-    this._listFilter = value;
-    this.filteredUsers = this.listFilter ? this.performFilter(this.listFilter) : this.Users;
-  }
-
-  filteredUsers: IUser[] = [];*/
   Users: IUser[] = [];
   displayedColumns: string[] = ['pic', 'firstName', 'lastName', 'cin','address','sexe'];
   dataSource;
@@ -52,23 +42,17 @@ export class UserListComponent implements OnInit {
     return this.domSanitizer.bypassSecurityTrustResourceUrl(b64ImageUrl);
   }
 
-/*
-  performFilter(filterBy: string): IUser[] {
-    filterBy = filterBy.toLocaleLowerCase();
-    return this.Users.filter((user: IUser) =>
-      user.firstName.toLocaleLowerCase().indexOf(filterBy) !== -1);
-  }
 
-  toggleImage(): void {
-    this.showImage = !this.showImage;
-  }*/
 
   ngOnInit(): void {
+    this.isLoadingResults = true;
+
     this.userService.getUsers().subscribe({
       next: Users => {
         this.Users = Users;
-        //this.filteredUsers = this.Users;
         this.dataSource = new MatTableDataSource(this.Users);
+        this.isLoadingResults = false;
+
       },
       error: err => this.errorMessage = err
     });

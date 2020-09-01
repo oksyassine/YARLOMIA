@@ -28,6 +28,7 @@ export class EventService {
               subject.next(JSON.parse(e.data));
           }*/
           this.evs.addEventListener("dbx", function(e) {
+            console.log("access dbx ");
             if (k==-1 || k==0)
               subject.next(e["data"]+'x');
           });

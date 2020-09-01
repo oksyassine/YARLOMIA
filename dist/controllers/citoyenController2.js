@@ -36,7 +36,7 @@ router.get("/api/getAll", (req, res) => {
   if (connLocal.readyState == 1 || connLocal.readyState == 2) {
     citoyen.find((err, docs) => {
       if (!err) {
-        res.set("Access-Control-Allow-Origin", "https://yarlomia.ga");
+        res.set("Access-Control-Allow-Origin", "*");
         res.send(docs);
       } else {
         console.log("error finding data");

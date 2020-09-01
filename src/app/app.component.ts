@@ -85,10 +85,11 @@ export class AppComponent implements OnInit,OnDestroy  {
   ngOnInit(): void {
     var busy;
     this.stService.busy.subscribe(foo =>{
-      if (!foo && this.old=='y') {
+      if (!foo && this.old=='yx') {
         busy=false;
         this.openSnackBar("Online Mode");
         this.stService.host="https://yarlomia.ga";
+        console.log("Access: busy");
       }else busy=true;
     });
     this.sub=this._sse.returnAsObservable().subscribe(msg=>{
@@ -129,6 +130,8 @@ export class AppComponent implements OnInit,OnDestroy  {
         this.oldloc=msg;
         console.log("Access: "+msg);
       }
+      if(msg=='yx' && msg!=this.old)
+        this.old=msg;
     });
   }
   ngOnDestroy(): void {

@@ -13,10 +13,9 @@ export class UserDetailGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const id = next.url[1].path;
-    // const id2 = next.paramMap.get('id');
-    // console.log(id2);
+    
     if (!id) {
-      alert('Invalid user Id');
+      alert('Invalid citizen Id');
       this.router.navigate(['/users']);
       return false;
     }
