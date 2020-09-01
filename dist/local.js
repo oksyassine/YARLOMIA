@@ -1,7 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const { mongoose } = require("./db.js");
-var citoyenController = require("./controllers/citoyenController2.js");
+var citoyenController = require("./controllers/localController.js");
 var app = express();
 app.use(bodyParser.json());
 app.use(express.static(process.cwd() + "/app/"));
@@ -9,8 +9,9 @@ app.use(express.static(process.cwd() + "/app/"));
 app.get("/", (req, res) => {
   res.sendFile(process.cwd() + "/app/index.html");
 });
-app.listen(3003, () => {
-  console.log("server started at port 3003");
+const PORT=3003;
+app.listen(PORT, () => {
+  console.log("server started at port "+PORT);
 });
 
 app.use("/", citoyenController);

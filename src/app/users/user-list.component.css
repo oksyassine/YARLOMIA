@@ -27,16 +27,15 @@ tr.example-element-row:not(.example-expanded-row):active {
 }
 
 .example-element-diagram {
-  min-width: 140px;
+  width: 340px;
   border: 1.5px solid black;
   padding: 10px;
   padding-bottom: 5px;
   font-weight: lighter;
   margin: 14px 0;
   margin-left: 10%;
-  height: 104px;
+  height: 210px;
 }
-
 .example-element-symbol {
   font-weight: bold;
   width: 80;
@@ -55,4 +54,12 @@ tr.example-element-row:not(.example-expanded-row):active {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.example-element-name {
+  font-weight: bold;
+  line-height: normal;
+  padding-bottom: 5px;
+font: large;
+padding-left: 75px;
 }

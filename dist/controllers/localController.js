@@ -11,6 +11,8 @@ router.use(busboy());
 var k = 0,
   j = 0;
 var db;
+Stream.setMaxListeners(0);
+
 var connLocal = mongoose.createConnection(
   "mongodb://admin:Gseii2021@52.148.245.219:3306/idemia?authSource=admin",
   {
@@ -18,7 +20,7 @@ var connLocal = mongoose.createConnection(
     useUnifiedTopology: true,
   }
 );
-
+//connLocal.setMaxListeners(0);
 const citoyen = connLocal.model(
   "citoyen",
   {
@@ -57,6 +59,7 @@ router.get("/api/state", (req, res) => {
   if(db)
     res.write("event: db\n" + "data: " + db + "\n\n");
   Stream.on("push", function (event, data) {
+    console.log(data+" is emitted")
     res.write("event: " + String(event) + "\n" + "data: " + data + "\n\n");
   });
 });
@@ -111,7 +114,7 @@ router.post("/api/form", (req, res) => {
         console.log("--------------------insert operation------------------");
         console.log(doc.ops[0]._id + " succesfully inserted to the local db");
         console.log("--------------------insert operation------------------");
-        res.set("Access-Control-Allow-Origin", "https://yarlomia.ga");
+        res.set("Access-Control-Allow-Origin", "*");
         res.send({ _id: doc.ops[0]._id });
       } else {
         console.log("-----------> failed to save in the local db");
@@ -141,7 +144,7 @@ router.post("/api/upload/pic", function (req, res) {
       buf = Buffer.concat(chunks);
       binarydata = Buffer.from(buf, "binary").toString("base64");
       fstream = "data:" + mimetype + ";base64, ".concat(binarydata);
-      res.set("Access-Control-Allow-Origin", "https://yarlomia.ga");
+      res.set("Access-Control-Allow-Origin", "*");
       res.send({ success: true });
       if (connLocal.readyState == 1 || connLocal.readyState == 2) {
         citoyen.collection
@@ -197,7 +200,7 @@ router.post("/api/upload/bio", function (req, res) {
       binarydata = Buffer.from(buf, "binary").toString("base64");
       fstream = "data:" + mimetype + ";base64, ".concat(binarydata);
       //console.log(fstream);
-      res.set("Access-Control-Allow-Origin", "https://yarlomia.ga");
+      res.set("Access-Control-Allow-Origin", "*");
       res.send({ success: true });
       if (connLocal.readyState == 1 || connLocal.readyState == 2) {
         citoyen.collection

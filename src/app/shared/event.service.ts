@@ -19,22 +19,16 @@ export class EventService {
           this.evs = new EventSource(host+'/api/state');
           this.evs.onopen = function(e) {
               console.log("Opening connection with " + host);
-              /*if (k==-1 || k==0)
-                subject.next(true);*/
-              k=0;
           }
-          /*this.evs.onmessage = function(e) {
-              console.log("Message Received.Ready State is " + this.readyState);
-              subject.next(JSON.parse(e.data));
-          }*/
           this.evs.addEventListener("dbx", function(e) {
-            console.log("access dbx ");
             if (k==-1 || k==0)
               subject.next(e["data"]+'x');
+            k=0;
           });
           this.evs.addEventListener("db", function(e) {
             if (k==-1 || k==0)
               subject.next(e["data"]);
+            k=0;
           });
           this.evs.onerror = function(e) {
             if (k==-1){
@@ -42,21 +36,23 @@ export class EventService {
                 subject.next('ex');
               else subject.next('e');
             }
-
             if(k==2){
               if(host=="https://yarlomia.ga")
                 subject.next("rx");
               else subject.next("r");
             }
-
             if (this.readyState == 0) {
-              console.log("Reconnecting…");
+              console.log("Reconnecting… "+host);
               k++;
             }
           }
       }
   }
   stopUpdates() {
+    if(this.evs.url=="https://yarlomia.ga/api/state"){
+      return null;
+    }
+    console.log("Closing connection with " + this.evs.url);
       this.evs.close();
   }
 }

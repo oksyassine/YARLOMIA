@@ -55,21 +55,23 @@
             <div class="example-element-detail"
                  [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
               <div class="example-element-diagram">
-
-                <div class='col-md-2'>
-
-                <div class="example-element-symbol">  <img *ngIf='showImage'
+                <div class="raw">
+                  <img *ngIf='showImage'
+                  [src]='sanatizeUrl(element.pic)'
+                  [title]='element.firstName'
+                  [style.width.px]='imageWidth*3'
+                  [style.margin.px]='imageMargin'>
+                  <img *ngIf='showImage'
                   [src]='sanatizeUrl(element.bio)'
                   [title]='element.firstName'
-                  [style.width.px]='imageWidth'
-                  [style.margin.px]='imageMargin'> </div>
+                  [style.width.px]='imageWidth*3'
+                  [style.margin.px]='imageMargin*3'>
                 </div>
-                  <div class='col-md-8'>
-
-                  <div class="example-element-name"> {{element.firstName}} </div>
+                <div class="raw">
+                  <div class="example-element-name"> {{element.firstName}}  {{element.lastName}}  </div>
                 </div>
               </div>
-            </div>
+              </div>
           </td>
         </ng-container>
 
@@ -85,7 +87,7 @@
           <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
         </tr>
       </table>
-     
+
 
     </ng-template>
     <ng-template #contenu_pas_bon>
