@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1599126417365,
+  "timestamp": 1599127465153,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -37,6 +37,7 @@
         "/assets/icons/icon-512x512.png",
         "/assets/icons/icon-72x72.png",
         "/assets/icons/icon-96x96.png",
+        "/assets/images/logo.jpg",
         "/fontawesome-webfont.1e59d2330b4c6deb84b3.ttf",
         "/fontawesome-webfont.20fd1704ea223900efa9.woff2",
         "/fontawesome-webfont.8b43027f47b20503057d.eot",
@@ -71,6 +72,7 @@
     "/assets/icons/icon-512x512.png": "9afce6e4a45fc2b23971687079848eaba6dec811",
     "/assets/icons/icon-72x72.png": "3e16042d6bce7dcca4036b91bfaf7652f638c73d",
     "/assets/icons/icon-96x96.png": "270f954f9bf55e86118ea442f8e085efc81dbb99",
+    "/assets/images/logo.jpg": "07af48a6338a1a07b0ba778b109e6d00a2eb55fa",
     "/favicon.ico": "a62687b3d5bc05f0c2cae3b1a0606c37777a21e3",
     "/fontawesome-webfont.1e59d2330b4c6deb84b3.ttf": "13b1eab65a983c7a73bc7997c479d66943f7c6cb",
     "/fontawesome-webfont.20fd1704ea223900efa9.woff2": "d6f48cba7d076fb6f2fd6ba993a75b9dc1ecbf0c",
