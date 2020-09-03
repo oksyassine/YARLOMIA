@@ -5,6 +5,8 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class EventService {
+  static server="https://yarlomia.ga";
+  static local="http://localhost:3003";
   constructor() {}
   evs: EventSource;
   ret:any;
@@ -12,7 +14,7 @@ export class EventService {
   returnAsObservable() {
       return this.subj.asObservable();
   }
-  getUpdates(host="https://yarlomia.ga") {
+  getUpdates(host=EventService.server) {
       let subject = this.subj;
       let k=-1;
       if (typeof(EventSource) !== 'undefined') {
@@ -32,12 +34,12 @@ export class EventService {
           });
           this.evs.onerror = function(e) {
             if (k==-1){
-              if (host=="https://yarlomia.ga")
+              if (host==EventService.server)
                 subject.next('ex');
               else subject.next('e');
             }
             if(k==2){
-              if(host=="https://yarlomia.ga")
+              if(host==EventService.server)
                 subject.next("rx");
               else subject.next("r");
             }
@@ -49,7 +51,7 @@ export class EventService {
       }
   }
   stopUpdates() {
-    if(this.evs.url=="https://yarlomia.ga/api/state"){
+    if(this.evs.url==EventService.server+"/api/state"){
       return null;
     }
     console.log("Closing connection with " + this.evs.url);

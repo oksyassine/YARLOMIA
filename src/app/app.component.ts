@@ -91,7 +91,7 @@ export class AppComponent implements OnInit, OnDestroy {
       if (!foo && this.old == 'yx') {
         busy = false;
         this.openSnackBar("Online Mode");
-        this.stService.host = "https://yarlomia.ga";
+        this.stService.host = EventService.server;
         this.loc.stopUpdates();
         this.test = false;
         console.log("Access: busy");
@@ -102,18 +102,18 @@ export class AppComponent implements OnInit, OnDestroy {
       console.log(msg);
       if (msg == 'yx' && !busy) {
         this.openSnackBar("Online Mode");
-        this.stService.host = "https://yarlomia.ga";
+        this.stService.host = EventService.server;
         this.loc.stopUpdates();
         this.test = false;
         this.old = msg;
         this.oldloc = "";
         console.log("Access: " + msg);
       }else if ((msg == "rx" || msg == 'nx') ) {
-        this.loc.getUpdates("http://localhost:3003");
+        this.loc.getUpdates(EventService.local);
         this.old = msg;
         console.log("Access: " + msg);
       } else if (msg == 'y' && msg != this.oldloc) {
-        this.stService.host = "http://localhost:3003";
+        this.stService.host = EventService.local;
         this.openSnackBar("Local Mode", 'blue-snackbar');
         this.restore();
         this.test = false;
@@ -129,7 +129,7 @@ export class AppComponent implements OnInit, OnDestroy {
         console.log("Access: " + msg);
       }else if (msg == 'ex') {
         if(!this.test)
-          this.loc.getUpdates("http://localhost:3003");
+          this.loc.getUpdates(EventService.local);
         setTimeout(() => {
             this.loc.stopUpdates();
             this._sse.getUpdates();
@@ -214,14 +214,14 @@ export class AppComponent implements OnInit, OnDestroy {
       }));
   }
   checker(val = 10000): void {
-    this._http.get("http://localhost:3003/api/db", {
+    this._http.get(EventService.local+"/api/db", {
         observe: 'response'
       })
       .pipe(first())
       .subscribe(resp => {
         if (resp.status === 200) {
           if (this.test) {
-            this.loc.getUpdates("http://localhost:3003");
+            this.loc.getUpdates(EventService.local);
             console.log("back to local mode");
           }
         }
