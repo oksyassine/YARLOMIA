@@ -4,6 +4,7 @@ import { FileUploadService } from "./upload.service";
 import { Router, NavigationStart } from '@angular/router';
 import { HttpEventType, HttpResponse } from '@angular/common/http';
 import { StateParameterService } from '../shared/st-parameter.service';
+import { EventService } from '../shared/event.service';
 
 export function hostFactory() { return window.location.hostname; }
 
@@ -74,7 +75,8 @@ selectFile(event): void {
           else if (this.router.url === '/form/bio'){
             this.stService.form=null;
             this.stService.pic=null;
-            this.stService.busy.emit(false);
+            if(this.stService.host==EventService.local)
+              this.stService.busy.emit(false);
             this.url='/';
           }
           setTimeout(() =>

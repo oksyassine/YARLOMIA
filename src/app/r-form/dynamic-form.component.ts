@@ -9,6 +9,7 @@ import { QuestionControlService } from './question-control.service';
 import { LocationStrategy, PathLocationStrategy} from '@angular/common';
 import { StateParameterService } from "../shared/st-parameter.service";
 import { CookieService } from 'ngx-cookie-service';
+import { EventService } from '../shared/event.service';
 
 @Component({
   selector: 'app-dynamic-form',
@@ -37,7 +38,8 @@ export class DynamicFormComponent implements OnInit {
     this.http.post(this.stService.host+'/api/form', this.obj).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.stService.id=this.obj['_id'];//JSON.stringify(data);
       this.stService.form=this.obj;
-      this.stService.busy.emit(true);
+      if(this.stService.host==EventService.local)
+        this.stService.busy.emit(true);
       //const start = Date.now();
       //this.cookieService.set( 'data', this.stService.id ,start+60000,'/',this.hostname,true);
       //console.log(this.cookieService.getAll());
