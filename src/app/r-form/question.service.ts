@@ -6,11 +6,10 @@ import { TextboxQuestion } from './question-textbox';
 import { DropdownQuestion } from './question-dropdown';
 
 import { of } from 'rxjs';
-
+/** QuestionService Injectable */
 @Injectable()
 export class QuestionService {
-
-  // TODO: get from a remote source of question metadata
+  /** Returns the observable of questions to show in the form */
   getQuestions() {
 
     const questions: QuestionBase<string>[] = [

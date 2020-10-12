@@ -1,0 +1,690 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>YARLOMIA Documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	      <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/Readthedocs.css">
+    </head>
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top visible-xs">
+            <a href="../" class="navbar-brand">YARLOMIA Documentation</a>
+            <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="hidden-xs menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li>Components</li>
+  <li>DynamicFormComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="active">
+            <a href="#info" role="tab" id="info-tab" data-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li >
+            <a href="#source" role="tab" id="source-tab" data-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li >
+            <a href="#templateData" role="tab" id="templateData-tab" data-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li >
+            <a href="#tree" role="tab" id="tree-tab" data-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="c-info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/r-form/dynamic-form.component.ts</code>
+</p>
+
+    <p class="comment">
+        <h3>Description</h3>
+    </p>
+    <p class="comment">
+        <p>DynamicFormComponent to handle the formgroup </p>
+
+    </p>
+
+
+    <p class="comment">
+        <h3>Implements</h3>
+    </p>
+    <p class="comment">
+                    <code><a href="https://angular.io/api/core/OnInit" target="_blank" >OnInit</a></code>
+    </p>
+
+
+<section>
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover">
+        <tbody>
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">providers</td>
+                <td class="col-md-9">
+                                <code><a href="../injectables/QuestionControlService.html" target="_self" >QuestionControlService</a></code>
+                            <code>{ provide: LocationStrategy, useClass: PathLocationStrategy }</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-dynamic-form</code></td>
+            </tr>
+
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./dynamic-form.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="index">Index</h3>
+    <table class="table table-sm table-bordered index-table">
+        <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#destroy$">destroy$</a>
+                            </li>
+                            <li>
+                                <a href="#form">form</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Methods</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#ngOnInit">ngOnInit</a>
+                            </li>
+                            <li>
+                                <a href="#onSubmit">onSubmit</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Inputs</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                <a href="#questions">questions</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+    <section>
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(stService: <a href="../injectables/StateParameterService.html">StateParameterService</a>, qcs: <a href="../injectables/QuestionControlService.html">QuestionControlService</a>, router: <a href="https://angular.io/api/router/Router" target="_blank">Router</a>, http: <a href="https://angular.io/api/common/http/HttpClient" target="_blank">HttpClient</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/r-form/dynamic-form.component.ts:25</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div class="io-description"><p>Constructs the DynamicForm Component</p>
+</div>
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                                    <td>Description</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>stService</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/StateParameterService.html" target="_self" >StateParameterService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <code><p>use the fields in the bag to store the citizen id and emit an event using the event emitter</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>qcs</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../injectables/QuestionControlService.html" target="_self" >QuestionControlService</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <code><p>Instance of the QuestionControlService Object</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>router</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/router/Router" target="_blank" >Router</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <code><p>use Router service to navigate among views</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                        <td>http</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="https://angular.io/api/common/http/HttpClient" target="_blank" >HttpClient</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                        <td>
+                                                                <code><p>HTTP Client</p>
+</code>
+                                                        </td>
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+    <section>
+    <h3 id="inputs">Inputs</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="questions"></a>
+                        <b>questions</b>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Type : </i>        <code><a href="../classes/QuestionBase.html" target="_self" >QuestionBase&lt;string&gt;[]</a></code>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <i>Default value : </i><code>[]</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-2" colspan="2">
+                                    <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/app/r-form/dynamic-form.component.ts:22</a></div>
+                            </td>
+                        </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>Input Questions  </p>
+</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+
+
+    <section>
+    
+    <h3 id="methods">
+        Methods
+    </h3>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="ngOnInit"></a>
+                    <span class="name">
+                        <b>
+                            ngOnInit
+                        </b>
+                        <a href="#ngOnInit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>ngOnInit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="36"
+                            class="link-to-prism">src/app/r-form/dynamic-form.component.ts:36</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Initiate the component by getting the formgroup from the questionbase objects </p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="onSubmit"></a>
+                    <span class="name">
+                        <b>
+                            onSubmit
+                        </b>
+                        <a href="#onSubmit"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>onSubmit()</code>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-line">Defined in <a href="" data-line="43"
+                            class="link-to-prism">src/app/r-form/dynamic-form.component.ts:43</a></div>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+                    <div class="io-description"><p>Submit the form when the user hits the submit button </p>
+</div>
+
+                    <div class="io-description">
+                        <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >void</a></code>
+
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+    <section>
+    
+        <h3 id="inputs">
+            Properties
+        </h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="destroy$"></a>
+                        <span class="name">
+                            <b>
+                            destroy$</b>
+                            <a href="#destroy$"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>    <code>Subject&lt;boolean&gt;</code>
+
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Default value : </i><code>new Subject&lt;boolean&gt;()</code>
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="25" class="link-to-prism">src/app/r-form/dynamic-form.component.ts:25</a></div>
+                            </td>
+                        </tr>
+
+
+            </tbody>
+        </table>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <a name="form"></a>
+                        <span class="name">
+                            <b>
+                            form</b>
+                            <a href="#form"><span class="icon ion-ios-link"></span></a>
+                        </span>
+                    </td>
+                </tr>
+                    <tr>
+                        <td class="col-md-4">
+                            <i>Type : </i>        <code><a href="https://angular.io/api/forms/FormGroup" target="_blank" >FormGroup</a></code>
+
+                        </td>
+                    </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                    <div class="io-line">Defined in <a href="" data-line="24" class="link-to-prism">src/app/r-form/dynamic-form.component.ts:24</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                        <div class="io-description"><p>FormGroup instance </p>
+</div>
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+</section>
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="c-source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component, Input, OnInit,Inject } from &#x27;@angular/core&#x27;;
+import { FormGroup } from &#x27;@angular/forms&#x27;;
+import { Router } from &#x27;@angular/router&#x27;;
+import { HttpClient } from &#x27;@angular/common/http&#x27;;
+import { takeUntil } from &#x27;rxjs/operators&#x27;;
+import { Subject } from &#x27;rxjs&#x27;;
+import { QuestionBase } from &#x27;./question-base&#x27;;
+import { QuestionControlService } from &#x27;./question-control.service&#x27;;
+import { LocationStrategy, PathLocationStrategy} from &#x27;@angular/common&#x27;;
+import { StateParameterService } from &quot;../shared/st-parameter.service&quot;;
+import { CookieService } from &#x27;ngx-cookie-service&#x27;;
+import { EventService } from &#x27;../shared/event.service&#x27;;
+
+/** DynamicFormComponent to handle the formgroup */
+@Component({
+  selector: &#x27;app-dynamic-form&#x27;,
+  templateUrl: &#x27;./dynamic-form.component.html&#x27;,
+  providers: [QuestionControlService, {provide: LocationStrategy, useClass: PathLocationStrategy}]
+})
+export class DynamicFormComponent implements OnInit {
+  /** Input Questions  */
+  @Input() questions: QuestionBase&lt;string&gt;[] &#x3D; [];
+  /** FormGroup instance */
+  form: FormGroup;
+  destroy$: Subject&lt;boolean&gt; &#x3D; new Subject&lt;boolean&gt;();
+  /**
+   * Constructs the DynamicForm Component
+   * @param qcs Instance of the QuestionControlService Object
+   * @param router use Router service to navigate among views
+   * @param stService use the fields in the bag to store the citizen id and emit an event using the event emitter
+   * @param http HTTP Client
+   */
+  constructor(/*private cookieService: CookieService,*/private stService :StateParameterService,
+    private qcs: QuestionControlService,private router : Router,private http: HttpClient) { }
+  /** Initiate the component by getting the formgroup from the questionbase objects */
+  ngOnInit() {
+    this.form &#x3D; this.qcs.toFormGroup(this.questions);
+    //const start &#x3D; Date.now();
+    //this.cookieService.set( &#x27;cin&#x27;, &quot;this.stService.id&quot;,start+60,&#x27;/&#x27;,this.hostname,true,&quot;None&quot;);
+    //console.log(this.cookieService.getAll());
+  }
+  /** Submit the form when the user hits the submit button */
+  onSubmit() {
+    //this.payLoad &#x3D; JSON.stringify(this.form.getRawValue());
+    const obj&#x3D; this.form.getRawValue();
+    obj[&quot;_id&quot;]&#x3D; &quot;dossier_&quot;+obj[&#x27;cin&#x27;];
+    this.http.post(this.stService.host+&#x27;/api/form&#x27;, obj).pipe(takeUntil(this.destroy$)).subscribe(data &#x3D;&gt; {
+      this.stService.id&#x3D;obj[&#x27;_id&#x27;];//JSON.stringify(data);
+      this.stService.form&#x3D;obj;
+      if(this.stService.host&#x3D;&#x3D;EventService.local)
+        this.stService.busy.emit(true);
+      //const start &#x3D; Date.now();
+      //this.cookieService.set( &#x27;data&#x27;, this.stService.id ,start+60000,&#x27;/&#x27;,this.hostname,true);
+      //console.log(this.cookieService.getAll());
+      setTimeout(() &#x3D;&gt;
+      {
+        this.router.navigate([&quot;/form/pic&quot;]);
+      },
+      1000);
+    });
+  }
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="c-templateData">
+        <pre class="line-numbers"><code class="language-html">﻿﻿&lt;div class&#x3D;&quot;card&quot;&gt;
+  &lt;div class&#x3D;&quot;card-header&quot;&gt;
+    Personal Informations
+  &lt;/div&gt;
+  &lt;div class&#x3D;&quot;card-body&quot;&gt;
+    &lt;div class&#x3D;&quot;container-fluid&quot;&gt;
+&lt;div&gt;
+  &lt;form (ngSubmit)&#x3D;&quot;onSubmit()&quot; [formGroup]&#x3D;&quot;form&quot;&gt;
+
+    &lt;div class&#x3D;&quot;text-center&quot; *ngFor&#x3D;&quot;let question of questions&quot; class&#x3D;&quot;form-row&quot;&gt;
+      &lt;app-question style&#x3D;&quot;display: block;margin-left: auto;margin-right: auto;width: 50%;&quot;
+      [question]&#x3D;&quot;question&quot; [form]&#x3D;&quot;form&quot;&gt;&lt;/app-question&gt;
+    &lt;/div&gt;
+
+    &lt;div class&#x3D;&quot;form-row&quot;&gt;
+      &lt;button style&#x3D;&quot;display: block;margin-left: auto;margin-right: auto;width: 10%;&quot;
+       mat-button color&#x3D;&quot;primary&quot; type&#x3D;&quot;submit&quot; [disabled]&#x3D;&quot;!form.valid&quot;&gt;Save&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/form&gt;
+
+  &lt;!--&lt;div style&#x3D;&quot;display: block;margin-left: auto;margin-right: auto;width: 50%;&quot;
+   *ngIf&#x3D;&quot;payLoad&quot; class&#x3D;&quot;form-row&quot;&gt;
+    &lt;strong&gt;Saved the following values&lt;/strong&gt;&lt;br&gt;{{payLoad}}
+  &lt;/div&gt;--&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</code></pre>
+    </div>
+
+
+    <div class="tab-pane fade " id="c-tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div>﻿﻿<div class="card">  <div class="card-header">    Personal Informations  </div>  <div class="card-body">    <div class="container-fluid"><div>  <form (ngSubmit)="onSubmit()" [formGroup]="form">    <div class="text-center" *ngFor="let question of questions" class="form-row">      <app-question style="display: block;margin-left: auto;margin-right: auto;width: 50%;"      [question]="question" [form]="form"></app-question>    </div>    <div class="form-row">      <button style="display: block;margin-left: auto;margin-right: auto;width: 10%;"       mat-button color="primary" type="submit" [disabled]="!form.valid">Save</button>    </div>  </form>  <!--<div style="display: block;margin-left: auto;margin-right: auto;width: 50%;"   *ngIf="payLoad" class="form-row">    <strong>Saved the following values</strong><br>{{payLoad}}  </div>--></div></div></div></div></div>'
+    var COMPONENTS = [{'name': 'AppComponent', 'selector': 'pm-root'},{'name': 'CountdownSnackbarComponent', 'selector': 'snackbar'},{'name': 'DynamicFormComponent', 'selector': 'app-dynamic-form'},{'name': 'DynamicFormQuestionComponent', 'selector': 'app-question'},{'name': 'FileUploadComponent', 'selector': 'app-file-upload'},{'name': 'RFormComponent', 'selector': 'app-root'},{'name': 'UserDetailComponent', 'selector': ''},{'name': 'UserListComponent', 'selector': ''},{'name': 'WelcomeComponent', 'selector': ''}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'DynamicFormComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+                   
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> result-matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'DynamicFormComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+       <!-- Required to polyfill modern browsers as code is ES5 for IE... -->
+       <script src="../js/libs/custom-elements-es5-adapter.js" charset="utf-8" defer></script>
+       <script src="../js/menu-wc.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+       <script src="../js/libs/zepto.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
