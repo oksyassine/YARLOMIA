@@ -5,6 +5,7 @@ import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 
 import { IUser } from './user';
 import { UserService } from './user.service';
+    /** the liste of all citizens*/
 
 @Component({
   templateUrl: './user-list.component.html',
@@ -43,21 +44,23 @@ export class UserListComponent implements OnInit {
 
   displayedColumns: string[] = ['pic', 'firstName', 'lastName', 'cin','address','sexe'];
   dataSource;
-
+/** Construct the component  */
   constructor(private domSanitizer: DomSanitizer,private userService: UserService) { }
-  /* This function is triggered when the user filitered the citizens*/
+  /** This function is triggered when the user filitered the citizens*/
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  /* This function is triggered to show the image*/
+  /**  This function is triggered to show the image*/
 
   sanatizeUrl(b64ImageUrl): SafeResourceUrl {
     return this.domSanitizer.bypassSecurityTrustResourceUrl(b64ImageUrl);
   }
 
-
+ /**
+   * Initiate the component 
+   */
 
   ngOnInit(): void {
     this.isLoadingResults = true;

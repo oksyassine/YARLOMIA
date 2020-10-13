@@ -4,7 +4,9 @@ import { DomSanitizer, SafeResourceUrl } from "@angular/platform-browser";
 
 import { IUser } from './user';
 import { UserService } from './user.service';
-
+/**
+ * detail of the citizen
+ */
 @Component({
   templateUrl: './user-detail.component.html',
   styleUrls: ['./user-detail.component.css']
@@ -19,13 +21,13 @@ export class UserDetailComponent implements OnInit {
     /** citizen detail */
 
   user: IUser | undefined;
-
+/** Construct the component  */
   constructor(private route: ActivatedRoute,
               private router: Router,
               private userService: UserService,
               private domSanitizer: DomSanitizer) {
   }
-  /* Initiate the component with the id of user*/
+  /**  Initiate the component with the id of user*/
 
   ngOnInit(): void {
     const param = this.route.snapshot.paramMap.get('id');
@@ -34,8 +36,7 @@ export class UserDetailComponent implements OnInit {
       this.getUser(id);
     }
   }
-  /**  */
-  /* This function is triggered when the user hits the button to view the detail*/
+  /**This function is triggered when the user hits the button to view the detail  */
 
   getUser(id: string): void {
     this.userService.getUser(id).subscribe({
@@ -43,12 +44,12 @@ export class UserDetailComponent implements OnInit {
       error: err => this.errorMessage = err
     });
   }
-    /* This function is triggered to show the image*/
+    /** This function is triggered to show the image*/
 
   sanatizeUrl(b64ImageUrl): SafeResourceUrl {
     return this.domSanitizer.bypassSecurityTrustResourceUrl(b64ImageUrl);
   }
-    /* This function is triggered to return to the table of users*/
+    /** This function is triggered to return to the table of users*/
 
   onBack(): void {
     this.router.navigate(['/users']);
