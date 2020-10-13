@@ -19,24 +19,39 @@ import { UserService } from './user.service';
   ],
 })
 export class UserListComponent implements OnInit {
+    /** page title */
+
   pageTitle ='Citizens List';
+    /** size of the image */
+
   imageWidth = 50;
   imageMargin = 2;
   showImage = true;
+    /** message to show when we have error */
+
   errorMessage = '';
+    /** detail about citizen */
+
   expandedElement: IUser | null;
+    /** use to upload  the spinner*/
+
   isLoadingResults = false;
+  /** the citizens */
 
   Users: IUser[] = [];
+    /** use to show the columns of the table of citizens */
+
   displayedColumns: string[] = ['pic', 'firstName', 'lastName', 'cin','address','sexe'];
   dataSource;
 
   constructor(private domSanitizer: DomSanitizer,private userService: UserService) { }
+  /* This function is triggered when the user filitered the citizens*/
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
+  /* This function is triggered to show the image*/
 
   sanatizeUrl(b64ImageUrl): SafeResourceUrl {
     return this.domSanitizer.bypassSecurityTrustResourceUrl(b64ImageUrl);

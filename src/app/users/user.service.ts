@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 export class UserService {
 
   constructor(private router : Router,private http: HttpClient,private stService:StateParameterService) { }
+  /* This function is triggered to get all citizens */
 
   getUsers(): Observable<IUser[]> {
     if(!this.stService.host)
@@ -23,6 +24,7 @@ export class UserService {
         catchError(this.handleError)
       );
   }
+  /* This function is triggered to get citizen by id*/
 
   getUser(id: string): Observable<IUser | undefined> {
     return this.getUsers()
@@ -30,6 +32,7 @@ export class UserService {
         map((users: IUser[]) => users.find(p => p._id === id))
       );
   }
+  /* This function is triggered when the functions getUser and getUsers have a error*/
 
   private handleError(err: HttpErrorResponse): Observable<never> {
    
