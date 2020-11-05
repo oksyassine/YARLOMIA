@@ -60,6 +60,13 @@
             <code>src/app/users/user.service.ts</code>
         </p>
 
+            <p class="comment">
+                <h3>Description</h3>
+            </p>
+            <p class="comment">
+                <p>getUsersService Injectable </p>
+
+            </p>
 
 
 
@@ -109,12 +116,14 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="13" class="link-to-prism">src/app/users/user.service.ts:13</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="14" class="link-to-prism">src/app/users/user.service.ts:14</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
+                            <div class="io-description"><p>Construct the component  </p>
+</div>
                             <div>
                                     <b>Parameters :</b>
                                     <table class="params">
@@ -198,14 +207,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="27"
-                            class="link-to-prism">src/app/users/user.service.ts:27</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="30"
+                            class="link-to-prism">src/app/users/user.service.ts:30</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>This function is triggered to get citizen by id</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -268,14 +279,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="17"
-                            class="link-to-prism">src/app/users/user.service.ts:17</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="19"
+                            class="link-to-prism">src/app/users/user.service.ts:19</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>This function is triggered to get all citizens </p>
+</div>
 
                     <div class="io-description">
                         <b>Returns : </b>        <code><a href="../interfaces/IUser.html" target="_self" >Observable&lt;IUser[]&gt;</a></code>
@@ -309,14 +322,16 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="34"
-                            class="link-to-prism">src/app/users/user.service.ts:34</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="38"
+                            class="link-to-prism">src/app/users/user.service.ts:38</a></div>
                 </td>
             </tr>
 
 
             <tr>
                 <td class="col-md-4">
+                    <div class="io-description"><p>This function is triggered when the functions getUser and getUsers have a error</p>
+</div>
 
                     <div class="io-description">
                         <b>Parameters :</b>
@@ -371,13 +386,15 @@ import { StateParameterService } from &quot;../shared/st-parameter.service&quot;
 
 import { IUser } from &#x27;./user&#x27;;
 import { Router } from &#x27;@angular/router&#x27;;
+/**getUsersService Injectable */
 
 @Injectable({
   providedIn: &#x27;root&#x27;
 })
 export class UserService {
-
+/**Construct the component  */
   constructor(private router : Router,private http: HttpClient,private stService:StateParameterService) { }
+  /** This function is triggered to get all citizens */
 
   getUsers(): Observable&lt;IUser[]&gt; {
     if(!this.stService.host)
@@ -388,6 +405,7 @@ export class UserService {
         catchError(this.handleError)
       );
   }
+  /** This function is triggered to get citizen by id*/
 
   getUser(id: string): Observable&lt;IUser | undefined&gt; {
     return this.getUsers()
@@ -395,6 +413,7 @@ export class UserService {
         map((users: IUser[]) &#x3D;&gt; users.find(p &#x3D;&gt; p._id &#x3D;&#x3D;&#x3D; id))
       );
   }
+  /** This function is triggered when the functions getUser and getUsers have a error*/
 
   private handleError(err: HttpErrorResponse): Observable&lt;never&gt; {
    

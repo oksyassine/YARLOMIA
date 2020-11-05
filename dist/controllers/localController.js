@@ -14,7 +14,7 @@ var db;
 Stream.setMaxListeners(0);
 
 var connLocal = mongoose.createConnection(
-  "mongodb://admin:Gseii2021@52.148.245.219:3306/idemia?authSource=admin",
+  "mongodb://admin:Gseii2021@47.242.47.226:3306/idemia?authSource=admin",
   {
     useNewUrlParser: true,
     useUnifiedTopology: true,

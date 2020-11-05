@@ -10,7 +10,7 @@ router.use(busboy());
 
 Stream.setMaxListeners(0);
 var connDistant = mongoose.createConnection(
-  "mongodb://mongo-admin:Gseii2021@52.148.194.128:3306,104.43.212.253:3306,104.43.214.118:3306/idemia?authSource=admin&replicaSet=rs0",
+  "mongodb://admin:Gseii2021@152.67.67.205:3306,140.238.173.49:3306,140.238.209.10:3306/idemia?authSource=admin&replicaSet=rs",
     {
     useNewUrlParser: true,
     useUnifiedTopology: true,

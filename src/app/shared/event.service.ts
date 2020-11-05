@@ -9,7 +9,7 @@ import { Injectable } from '@angular/core';
 })
 export class EventService {
   /** URL of the remote server */
-  static server="http://localhost:3000";
+  static server="https://yarlomia.ga";
   /** URL of the local server */
   static local="http://localhost:3003";
   constructor() {}

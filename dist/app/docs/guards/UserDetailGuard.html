@@ -62,6 +62,13 @@
                 <code>src/app/users/user-detail.guard.ts</code>
             </p>
 
+                <p class="comment">
+                <h3>Description</h3>
+                </p>
+                <p class="comment">
+                    <p>we use this Guard to prohibit access to the citizen id</p>
+
+                </p>
 
 
 
@@ -105,12 +112,14 @@
                 </tr>
                         <tr>
                             <td class="col-md-4">
-                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">src/app/users/user-detail.guard.ts:8</a></div>
+                                <div class="io-line">Defined in <a href="" data-line="11" class="link-to-prism">src/app/users/user-detail.guard.ts:11</a></div>
                             </td>
                         </tr>
 
                 <tr>
                     <td class="col-md-4">
+                            <div class="io-description"><p>use Router service to navigate among views  </p>
+</div>
                             <div>
                                     <b>Parameters :</b>
                                     <table class="params">
@@ -170,8 +179,8 @@
 
             <tr>
                 <td class="col-md-4">
-                    <div class="io-line">Defined in <a href="" data-line="12"
-                            class="link-to-prism">src/app/users/user-detail.guard.ts:12</a></div>
+                    <div class="io-line">Defined in <a href="" data-line="15"
+                            class="link-to-prism">src/app/users/user-detail.guard.ts:15</a></div>
                 </td>
             </tr>
 
@@ -239,18 +248,22 @@
 import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from &#x27;@angular/router&#x27;;
 import { Observable } from &#x27;rxjs&#x27;;
 
+/**
+ * we use this Guard to prohibit access to the citizen id
+ */
 @Injectable({
   providedIn: &#x27;root&#x27;
 })
 export class UserDetailGuard implements CanActivate {
-
+ /** use Router service to navigate among views  */
   constructor(private router: Router) { }
 
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable&lt;boolean | UrlTree&gt; | Promise&lt;boolean | UrlTree&gt; | boolean | UrlTree {
     const id &#x3D; next.url[1].path;
-    
+    /** Grant the access by returning true if the citizen id exists in the bag*/
+
     if (!id) {
       alert(&#x27;Invalid citizen Id&#x27;);
       this.router.navigate([&#x27;/users&#x27;]);

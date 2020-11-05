@@ -47,8 +47,8 @@ export class DynamicFormComponent implements OnInit {
     this.http.post(this.stService.host+'/api/form', obj).pipe(takeUntil(this.destroy$)).subscribe(data => {
       this.stService.id=obj['_id'];//JSON.stringify(data);
       this.stService.form=obj;
-      if(this.stService.host==EventService.local)
-        this.stService.busy.emit(true);
+      //if(this.stService.host==EventService.local)
+      this.stService.busy.emit(true);
       //const start = Date.now();
       //this.cookieService.set( 'data', this.stService.id ,start+60000,'/',this.hostname,true);
       //console.log(this.cookieService.getAll());
